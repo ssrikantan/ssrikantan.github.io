@@ -43,6 +43,7 @@ Figure 2 using Azure Key Vault to store secrets to connect to Azure SQL Database
 Once the changes are made to the pipeline in the designer view, the developer choses the ‘publish’ option that pushes the changes to the ADF instance running in development. This also triggers the creation of the ARM Template in the Repository branch, comprising:
 -  ARMTemplateParametersForFactory.json (which is the parameters JSON) and
 -  ARMTemplateParametersForFactory.json (which is the resources JSON)
+
 Once the updated ADF Pipeline is tested and ready in the ‘Development Branch’, the developer creates a ‘pull request’ asking to merge the changes with the ‘Master Branch’. Azure Devops provides the workflow to ensure the changes are reviewed (the new ARM Templates with the changes, in this case) before they are accepted and merged with the ‘Master branch’.
 When the merge with the ‘Master Branch’ is complete, automatically, a new branch ‘adf_publish’ is created by Azure Devops if it does not exist, containing the new ARM Template.
 
@@ -71,6 +72,7 @@ The steps to be performed are explained here. For the artefacts to the CD Pipeli
 The Release pipeline looks as shown below:
 - Retrieve the secrets from azure Key Vault
 - Deploy the ARM Template to the ADF instance running in the staging environment using the parameters specific to this environment.
+
 Variables, as shown in Figure 5, are defined to pass the Key vault URL, the Logic app URL, etc for the staging environment.
 
 ![GitHub Logo](../images/ReleasePipeline.png)
