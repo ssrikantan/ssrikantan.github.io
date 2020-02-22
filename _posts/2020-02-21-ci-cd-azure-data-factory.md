@@ -31,7 +31,7 @@ b) Azure SQL Database
 
 c) Azure Storage Account
 
-Figure 2 shows how the Managed Identity of the ADF instance is used to connect to Azure Key Vault to retrieve the connection string of the Azure SQL Database. Before use in the ADF pipeline designer, the Managed Identity of the ADF instance needs to be provided access to the Key Vault to perform ‘Get’ and ‘List’ operations on secrets.
+Figure 2 shows how the [Managed Identity](https://docs.microsoft.com/en-us/azure/data-factory/data-factory-service-identity) of the ADF instance is used to connect to Azure Key Vault to retrieve the connection string of the Azure SQL Database. Before use in the ADF pipeline designer, the Managed Identity of the ADF instance needs to be provided access to the Key Vault to perform ‘Get’ and ‘List’ operations on secrets.
 
 **Note:**
 While the ADF instance can use Managed Identity to access Azure SQL Database and Azure Storage Accounts as well, I have instead used connection strings that contain SQL Authentication credentials and Storage access keys, that are stored as secrets in the Key Vault.
@@ -58,7 +58,7 @@ The content of the parameters JSON of the ARM Template looks as shown below:
 
 Figure 3: Parameters JSON
 
-By default, unlike as shown in Figure 3 above, the parameter definition for the Logic App URL is not created;  instead its value is stored as a string literal in the Resources JSON. To address this requirement, certain changes are required to be done in the Template that generates the Parameters JSON file. The syntax and steps to customise the template are explained here. A base Template available here is downloaded and custom JSON segments as shown in Figure 4, should be added to it.
+By default, unlike as shown in Figure 3 above, the parameter definition for the Logic App URL is not created;  instead its value is stored as a string literal in the Resources JSON. To address this requirement, certain changes are required to be done in the Template that generates the Parameters JSON file. The syntax and steps to customise the template are explained [here](https://docs.microsoft.com/en-us/azure/data-factory/continuous-integration-deployment#use-custom-parameters-with-the-resource-manager-template). A base Template available [here](https://docs.microsoft.com/en-us/azure/data-factory/continuous-integration-deployment#default-parameterization-template) is downloaded and custom JSON segments as shown in Figure 4, should be added to it.
 
 
 <img src="../../../images/Template.png" alt="Pipeline" height="350px"/>
@@ -75,7 +75,7 @@ In the scenario here, a separate Azure Key Vault instance and Azure Data Factory
 
 ### Release Pipeline
 
-The steps to be performed are explained here. For the artefacts to the CD Pipeline, select the Resources JSON and the Parameters JSON from the ARM Template generated in the previous section.
+The steps to be performed are explained [here](https://docs.microsoft.com/en-us/azure/data-factory/continuous-integration-deployment#set-up-an-azure-pipelines-release). For the artefacts to the CD Pipeline, select the Resources JSON and the Parameters JSON from the ARM Template generated in the previous section.
 The Release pipeline looks as shown below:
 
 i) Retrieve the secrets from azure Key Vault
