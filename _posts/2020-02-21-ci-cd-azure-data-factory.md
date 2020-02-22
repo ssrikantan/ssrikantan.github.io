@@ -19,7 +19,7 @@ Pipeline Activities:
 
 2) Web activity: Makes a HTTP POST call to an Azure Logic App. The body of the HTTP Request is a JSON, that contains the Recipient email address, Body and subject of the email to the administrator.
 
-![GitHub Logo](../../../images/ADFPipeline.png)
+<img src="../../../images/ADFPipeline.png" alt="Pipeline" height="500px"/>
 
 Figure 1 ADF Pipeline
 
@@ -53,13 +53,15 @@ Once the updated ADF Pipeline is tested and ready in the â€˜Development Branchâ€
 ### Customising the Parameters Template
 
 The content of the parameters JSON of the ARM Template looks as shown below:
-![GitHub logo](../../../images/Parameters.png)
+
+<img src="../../../images/Parameters.png" alt="Pipeline" height="350px"/>
 
 Figure 3: Parameters JSON
 
 By default, unlike as shown in Figure 3 above, the parameter definition for the Logic App URL is not created;  instead its value is stored as a string literal in the Resources JSON. To address this requirement, certain changes are required to be done in the Template that generates the Parameters JSON file. The syntax and steps to customise the template are explained here. A base Template available here is downloaded and custom JSON segments as shown in Figure 4, should be added to it.
 
-![GitHub Logo](../../../images/Template.png)
+
+<img src="../../../images/Template.png" alt="Pipeline" height="350px"/>
 
 Figure 4: Customise Template that generates ARM Template
 
@@ -82,7 +84,7 @@ ii) Deploy the ARM Template to the ADF instance running in the staging environme
 
 Variables, as shown in Figure 5, are defined to pass the Key vault URL, the Logic app URL, etc for the staging environment.
 
-![GitHub Logo](../../../images/ReleasePipeline.png)
+<img src="../../../images/ReleasePipeline.png" alt="Pipeline" height="350px"/>
 
 Figure 5: CD Pipeline definition with variables
 
