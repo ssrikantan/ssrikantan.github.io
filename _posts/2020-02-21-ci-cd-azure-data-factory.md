@@ -33,7 +33,7 @@ Note:
 While the ADF instance can use Managed Identity to access Azure SQL Database and Azure Storage Accounts as well, I have instead used connection strings that contain SQL Authentication credentials and Storage access keys, that are stored as secrets in the Key Vault.
 
 
-![GitHub Logo](../images/managedidentity.png)
+![GitHub Logo](/images/managedidentity.png)
 Figure 2 using Azure Key Vault to store secrets to connect to Azure SQL Database
 
 ## Pushing changes in the ADF Pipeline to Azure Devops
