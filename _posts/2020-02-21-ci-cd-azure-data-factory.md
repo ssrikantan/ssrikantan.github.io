@@ -25,9 +25,10 @@ Figure 1 ADF Pipeline
 Linked Services and Connections:
 
 
-      Azure Key Vault is used to store the Connection string to access Azure SQL Database (source) and the Azure Storage Account (sink) as secrets. The ADF Pipeline is configured to use these Key Vault secrets connects to the source and sink data sources. When the ARM Template is generated on publishing the ADF Pipeline, Azure Key Vault gets added as a Linked service in it.
-       Azure SQL Database
-       Azure Storage Account
+- Azure Key Vault is used to store the Connection string to access Azure SQL Database (source) and the Azure Storage Account (sink) as secrets. The ADF Pipeline is configured to use these Key Vault secrets connects to the source and sink data sources. When the ARM Template is generated on publishing the ADF Pipeline, Azure Key Vault gets added as a Linked service in it.
+- Azure SQL Database
+- Azure Storage Account
+
 Figure 2 shows how the Managed Identity of the ADF instance is used to connect to Azure Key Vault to retrieve the connection string of the Azure SQL Database. Before use in the ADF pipeline designer, the Managed Identity of the ADF instance needs to be provided access to the Key Vault to perform ‘Get’ and ‘List’ operations on secrets.
 
 Note:
