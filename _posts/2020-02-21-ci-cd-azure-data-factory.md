@@ -84,7 +84,7 @@ ii) Deploy the ARM Template to the ADF instance running in the staging environme
 
 Variables, as shown in Figure 5, are defined to pass the Key vault URL, the Logic app URL, etc for the staging environment.
 
-<img src="../../../images/ReleasePipeline.png" alt="Pipeline" height="350px"/>
+<img src="../../../images/ReleasePipeline.png" alt="Pipeline" height="500px"/>
 
 Figure 5: CD Pipeline definition with variables
 
