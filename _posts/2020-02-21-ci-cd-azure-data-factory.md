@@ -17,8 +17,8 @@ ADF Pipeline activities, Connections and Linked services
 Figure 1 shows the ADF Pipeline ‘notifierjob’. The Pipeline is integrated with Azure Devops Git Repository, and linked to the ‘Developer branch’. All changes or new features in the pipeline would be implemented in this branch before it is pushed to staging and production environments.
 Pipeline Activities:
 
-      Copy Activity: Azure SQL Database (Source) (action : execute Stored procedure). Data is copied to Azure Storage Account (Sink)
-      Web activity: Makes a HTTP POST call to an Azure Logic App. The body of the HTTP Request is a JSON, that contains the Recipient email address, Body and subject of the email to the administrator.
+- Copy Activity: Azure SQL Database (Source) (action : execute Stored procedure). Data is copied to Azure Storage Account (Sink)
+- Web activity: Makes a HTTP POST call to an Azure Logic App. The body of the HTTP Request is a JSON, that contains the Recipient email address, Body and subject of the email to the administrator.
 
 
 Figure 1 ADF Pipeline
