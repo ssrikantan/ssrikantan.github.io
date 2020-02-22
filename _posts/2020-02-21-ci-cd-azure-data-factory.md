@@ -15,34 +15,34 @@ ADF Pipeline activities, Connections and Linked services
 Figure 1 shows the ADF Pipeline ‘notifierjob’. The Pipeline is integrated with Azure Devops Git Repository, and linked to the ‘Developer branch’. All changes or new features in the pipeline would be implemented in this branch before it is pushed to staging and production environments.
 Pipeline Activities:
 
-- Copy Activity: Azure SQL Database (Source) (action : execute Stored procedure). Data is copied to Azure Storage Account (Sink)
-- Web activity: Makes a HTTP POST call to an Azure Logic App. The body of the HTTP Request is a JSON, that contains the Recipient email address, Body and subject of the email to the administrator.
+1) Copy Activity: Azure SQL Database (Source) (action : execute Stored procedure). Data is copied to Azure Storage Account (Sink)
+2) Web activity: Makes a HTTP POST call to an Azure Logic App. The body of the HTTP Request is a JSON, that contains the Recipient email address, Body and subject of the email to the administrator.
 
-![GitHub Logo](../../../images/ADFPipeline.png height="350px")
+![GitHub Logo](../../../images/ADFPipeline.png)
 
 Figure 1 ADF Pipeline
 
 ## Linked Services and Connections:
 
-- Azure Key Vault is used to store the Connection string to access Azure SQL Database (source) and the Azure Storage Account (sink) as secrets. The ADF Pipeline is configured to use these Key Vault secrets connects to the source and sink data sources. When the ARM Template is generated on publishing the ADF Pipeline, Azure Key Vault gets added as a Linked service in it.
-- Azure SQL Database
-- Azure Storage Account
+a) Azure Key Vault is used to store the Connection string to access Azure SQL Database (source) and the Azure Storage Account (sink) as secrets. The ADF Pipeline is configured to use these Key Vault secrets connects to the source and sink data sources. When the ARM Template is generated on publishing the ADF Pipeline, Azure Key Vault gets added as a Linked service in it.
+b) Azure SQL Database
+c) Azure Storage Account
 
 Figure 2 shows how the Managed Identity of the ADF instance is used to connect to Azure Key Vault to retrieve the connection string of the Azure SQL Database. Before use in the ADF pipeline designer, the Managed Identity of the ADF instance needs to be provided access to the Key Vault to perform ‘Get’ and ‘List’ operations on secrets.
 
-Note:
+**Note:**
 While the ADF instance can use Managed Identity to access Azure SQL Database and Azure Storage Accounts as well, I have instead used connection strings that contain SQL Authentication credentials and Storage access keys, that are stored as secrets in the Key Vault.
 
 
-![GitHub Logo](../../../images/managedidentity.png height="350px")
+![GitHub Logo](../../../images/managedidentity.png)
 
 Figure 2 using Azure Key Vault to store secrets to connect to Azure SQL Database
 
 ## Pushing changes in the ADF Pipeline to Azure Devops
 
 Once the changes are made to the pipeline in the designer view, the developer choses the ‘publish’ option that pushes the changes to the ADF instance running in development. This also triggers the creation of the ARM Template in the Repository branch, comprising:
--  ARMTemplateParametersForFactory.json (which is the parameters JSON) and
--  ARMTemplateParametersForFactory.json (which is the resources JSON)
+a) ARMTemplateParametersForFactory.json (which is the parameters JSON) and
+b) ARMTemplateParametersForFactory.json (which is the resources JSON)
 
 Once the updated ADF Pipeline is tested and ready in the ‘Development Branch’, the developer creates a ‘pull request’ asking to merge the changes with the ‘Master Branch’. Azure Devops provides the workflow to ensure the changes are reviewed (the new ARM Templates with the changes, in this case) before they are accepted and merged with the ‘Master branch’.
 When the merge with the ‘Master Branch’ is complete, automatically, a new branch ‘adf_publish’ is created by Azure Devops if it does not exist, containing the new ARM Template.
@@ -71,8 +71,8 @@ Release Pipeline
 
 The steps to be performed are explained here. For the artefacts to the CD Pipeline, select the Resources JSON and the Parameters JSON from the ARM Template generated in the previous section.
 The Release pipeline looks as shown below:
-- Retrieve the secrets from azure Key Vault
-- Deploy the ARM Template to the ADF instance running in the staging environment using the parameters specific to this environment.
+i) Retrieve the secrets from azure Key Vault
+ii) Deploy the ARM Template to the ADF instance running in the staging environment using the parameters specific to this environment.
 
 Variables, as shown in Figure 5, are defined to pass the Key vault URL, the Logic app URL, etc for the staging environment.
 
