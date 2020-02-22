@@ -3,7 +3,7 @@ layout: post
 title: "CI/CD automation of Azure Data factory Pipelines"
 date: 2020-02-21
 ---
-
+ssss
 In this post, I have taken the example of an Azure Data factory pipeline to demonstrate how CI/CD Automation can be implemented. While doing so, I have referred to the documentation here for guidance.
 Azure Data factory provides the ability to author data processing pipelines, manage the resulting pipeline as a JSON document that can be source and version controlled. New and updated pipelines from development can be pushed to the staging and Production branches in Azure Devops, from where these could be deployed to the Data factory instances running in the other environments like staging and production.
 Scenario Description
@@ -18,7 +18,7 @@ Pipeline Activities:
 - Copy Activity: Azure SQL Database (Source) (action : execute Stored procedure). Data is copied to Azure Storage Account (Sink)
 - Web activity: Makes a HTTP POST call to an Azure Logic App. The body of the HTTP Request is a JSON, that contains the Recipient email address, Body and subject of the email to the administrator.
 
-![GitHub Logo](../images/ADFPipeline.png)
+![GitHub Logo](./images/ADFPipeline.png)
 Figure 1 ADF Pipeline
 
 ## Linked Services and Connections:
