@@ -18,7 +18,7 @@ Pipeline Activities:
 - Copy Activity: Azure SQL Database (Source) (action : execute Stored procedure). Data is copied to Azure Storage Account (Sink)
 - Web activity: Makes a HTTP POST call to an Azure Logic App. The body of the HTTP Request is a JSON, that contains the Recipient email address, Body and subject of the email to the administrator.
 
-![GitHub Logo](/images/ADFPipeline.png)
+![GitHub Logo](../images/ADFPipeline.png)
 Figure 1 ADF Pipeline
 
 ## Linked Services and Connections:
@@ -33,7 +33,7 @@ Note:
 While the ADF instance can use Managed Identity to access Azure SQL Database and Azure Storage Accounts as well, I have instead used connection strings that contain SQL Authentication credentials and Storage access keys, that are stored as secrets in the Key Vault.
 
 
-![GitHub Logo](/images/managedidentity.png)
+![GitHub Logo](../images/managedidentity.png)
 Figure 2 using Azure Key Vault to store secrets to connect to Azure SQL Database
 
 ## Pushing changes in the ADF Pipeline to Azure Devops
@@ -48,12 +48,12 @@ When the merge with the ‘Master Branch’ is complete, automatically, a new br
 ### Customising the Parameters Template
 
 The content of the parameters JSON of the ARM Template looks as shown below:
-![GitHub logo](/images/Parameters.png)
+![GitHub logo](../images/Parameters.png)
 Figure 3: Parameters JSON
 
 By default, unlike as shown in Figure 3 above, the parameter definition for the Logic App URL is not created;  instead its value is stored as a string literal in the Resources JSON. To address this requirement, certain changes are required to be done in the Template that generates the Parameters JSON file. The syntax and steps to customise the template are explained here. A base Template available here is downloaded and custom JSON segments as shown in Figure 4, should be added to it.
 
-![GitHub Logo](/images/Template.png)
+![GitHub Logo](../images/Template.png)
 
 Figure 4: Customise Template that generates ARM Template
 
@@ -73,7 +73,7 @@ The Release pipeline looks as shown below:
 
 Variables, as shown in Figure 5, are defined to pass the Key vault URL, the Logic app URL, etc for the staging environment.
 
-![GitHub Logo](/images/ReleasePipeline.png)
+![GitHub Logo](../images/ReleasePipeline.png)
 Figure 5: CD Pipeline definition with variables
 
 Prior to running the CD Pipeline, the resources for the staging environment, like ADF Instance, Azure Key Vault, etc were already created. The Managed Identity of the ADF Instance was provided access to the Key vault.
