@@ -36,21 +36,19 @@ Figure 2 shows how the Managed Identity of the ADF instance is used to connect t
 **Note:**
 While the ADF instance can use Managed Identity to access Azure SQL Database and Azure Storage Accounts as well, I have instead used connection strings that contain SQL Authentication credentials and Storage access keys, that are stored as secrets in the Key Vault.
 
-
-#![GitHub Logo](../../../images/managedidentity.png)
-<img src="../../../images/managedidentity.png" alt="Pipeline" height="350px"/>
+<img src="../../../images/managedidentity.png" alt="Pipeline" height="500px"/>
 
 Figure 2 using Azure Key Vault to store secrets to connect to Azure SQL Database
 
 ## Pushing changes in the ADF Pipeline to Azure Devops
 
 Once the changes are made to the pipeline in the designer view, the developer choses the ‘publish’ option that pushes the changes to the ADF instance running in development. This also triggers the creation of the ARM Template in the Repository branch, comprising:
+
 a) ARMTemplateParametersForFactory.json (which is the parameters JSON) and
 
 b) ARMTemplateParametersForFactory.json (which is the resources JSON)
 
-Once the updated ADF Pipeline is tested and ready in the ‘Development Branch’, the developer creates a ‘pull request’ asking to merge the changes with the ‘Master Branch’. Azure Devops provides the workflow to ensure the changes are reviewed (the new ARM Templates with the changes, in this case) before they are accepted and merged with the ‘Master branch’.
-When the merge with the ‘Master Branch’ is complete, automatically, a new branch ‘adf_publish’ is created by Azure Devops if it does not exist, containing the new ARM Template.
+Once the updated ADF Pipeline is tested and ready in the ‘Development Branch’, the developer creates a ‘pull request’ asking to merge the changes with the ‘Master Branch’. Azure Devops provides the workflow to ensure the changes are reviewed (the new ARM Templates with the changes, in this case) before they are accepted and merged with the ‘Master branch’. When the merge with the ‘Master Branch’ is complete, automatically, a new branch ‘adf_publish’ is created by Azure Devops if it does not exist, containing the new ARM Template.
 
 ### Customising the Parameters Template
 
@@ -72,10 +70,12 @@ At the end of this step, an ARM Template is generated where the 'url' property o
 ## Continuous delivery to Staging environment
 
 In the scenario here, a separate Azure Key Vault instance and Azure Data Factory instance are created for use in the Staging environment. Rest of the services like Azure SQL Database, Azure Storage and Azure Logic App from the development environment have been reused in Staging.
-Release Pipeline
+
+### Release Pipeline
 
 The steps to be performed are explained here. For the artefacts to the CD Pipeline, select the Resources JSON and the Parameters JSON from the ARM Template generated in the previous section.
 The Release pipeline looks as shown below:
+
 i) Retrieve the secrets from azure Key Vault
 
 ii) Deploy the ARM Template to the ADF instance running in the staging environment using the parameters specific to this environment.
@@ -86,6 +86,5 @@ Variables, as shown in Figure 5, are defined to pass the Key vault URL, the Logi
 
 Figure 5: CD Pipeline definition with variables
 
-Prior to running the CD Pipeline, the resources for the staging environment, like ADF Instance, Azure Key Vault, etc were already created. The Managed Identity of the ADF Instance was provided access to the Key vault.
-Alternatively, as the first step in the CD Pipeline, a PowerShell or Bash script can be executed that first checks the existence of these resources and their requisite permissions, creates/defines them if they do not.
+Prior to running the CD Pipeline, the resources for the staging environment, like ADF Instance, Azure Key Vault, etc were already created. The Managed Identity of the ADF Instance was provided access to the Key vault. Alternatively, as the first step in the CD Pipeline, a PowerShell or Bash script can be executed that first checks the existence of these resources and their requisite permissions, creates/defines them if they do not.
 
