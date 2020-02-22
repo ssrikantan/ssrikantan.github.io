@@ -6,18 +6,22 @@ date: 2020-02-21
 ## Summary
 In this post, I have taken the example of an Azure Data factory pipeline to demonstrate how CI/CD Automation can be implemented. While doing so, I have referred to the documentation [[here](https://docs.microsoft.com/en-us/azure/data-factory/continuous-integration-deployment)] for guidance.
 Azure Data factory provides the ability to author data processing pipelines, manage the resulting pipeline as a JSON document that can be source and version controlled. New and updated pipelines from development can be pushed to the staging and Production branches in Azure Devops, from where these could be deployed to the Data factory instances running in the other environments like staging and production.
-Scenario Description
+
+## Scenario Description
 
 Azure SQL Database hosts Customer (Audience) data. A Stored procedure on this database returns the audience that should be targeted with a specific Marketing campaign, over email. The size of the audience data returned by the Stored Procedure is huge, and is stored in Azure blob Storage, in chunks of 4MB JSON Files. Once the data is transferred to the blob Storage account, a single Email is sent to the Administrator notifying the completion of the pipeline run. To send this email, a Web activity in the pipeline is used to invoke an Azure Logic App.
 Additionally, an Azure Logic App is triggered by Blob insert events on the storage account, that de-batches the data per user and individually sends the campaign email. The processing of the campaign emails through Logic Apps is not in the scope of this article.
-ADF Pipeline activities, Connections and Linked services
+
+## ADF Pipeline activities, Connections and Linked services
 
 Figure 1 shows the ADF Pipeline ‘notifierjob’. The Pipeline is integrated with Azure Devops Git Repository, and linked to the ‘Developer branch’. All changes or new features in the pipeline would be implemented in this branch before it is pushed to staging and production environments.
 Pipeline Activities:
 
-1) Copy Activity: Azure SQL Database (Source) (action : execute Stored procedure). Data is copied to Azure Storage Account (Sink)
+1) Copy Activity: 
+ Azure SQL Database (Source) (action : execute Stored procedure). Data is copied to Azure Storage Account (Sink)
 
-2) Web activity: Makes a HTTP POST call to an Azure Logic App. The body of the HTTP Request is a JSON, that contains the Recipient email address, Body and subject of the email to the administrator.
+2) Web activity: 
+Makes a HTTP POST call to an Azure Logic App. The body of the HTTP Request is a JSON, that contains the Recipient email address, Body and subject of the email to the administrator.
 
 <img src="../../../images/ADFPipeline.png" alt="Pipeline" height="500px"/>
 
@@ -25,7 +29,8 @@ Figure 1 ADF Pipeline
 
 ## Linked Services and Connections:
 
-a) Azure Key Vault is used to store the Connection string to access Azure SQL Database (source) and the Azure Storage Account (sink) as secrets. The ADF Pipeline is configured to use these Key Vault secrets connects to the source and sink data sources. When the ARM Template is generated on publishing the ADF Pipeline, Azure Key Vault gets added as a Linked service in it.
+a) Azure Key Vault:
+AKV is used to store the Connection string to access Azure SQL Database (source) and the Azure Storage Account (sink) as secrets. The ADF Pipeline is configured to use these Key Vault secrets connects to the source and sink data sources. When the ARM Template is generated on publishing the ADF Pipeline, Azure Key Vault gets added as a Linked service in it.
 
 b) Azure SQL Database
 
@@ -38,15 +43,15 @@ While the ADF instance can use Managed Identity to access Azure SQL Database and
 
 <img src="../../../images/managedidentity.png" alt="Pipeline" height="500px"/>
 
-Figure 2 using Azure Key Vault to store secrets to connect to Azure SQL Database
+Figure 2: using Azure Key Vault to store secrets to connect to Azure SQL Database
 
 ## Pushing changes in the ADF Pipeline to Azure Devops
 
 Once the changes are made to the pipeline in the designer view, the developer choses the ‘publish’ option that pushes the changes to the ADF instance running in development. This also triggers the creation of the ARM Template in the Repository branch, comprising:
 
-a) ARMTemplateParametersForFactory.json (which is the parameters JSON) and
+1. ARMTemplateParametersForFactory.json (which is the parameters JSON) and
 
-b) ARMTemplateParametersForFactory.json (which is the resources JSON)
+2. ARMTemplateParametersForFactory.json (which is the resources JSON)
 
 Once the updated ADF Pipeline is tested and ready in the ‘Development Branch’, the developer creates a ‘pull request’ asking to merge the changes with the ‘Master Branch’. Azure Devops provides the workflow to ensure the changes are reviewed (the new ARM Templates with the changes, in this case) before they are accepted and merged with the ‘Master branch’. When the merge with the ‘Master Branch’ is complete, automatically, a new branch ‘adf_publish’ is created by Azure Devops if it does not exist, containing the new ARM Template.
 
@@ -86,7 +91,7 @@ Variables, as shown in Figure 5, are defined to pass the Key vault URL, the Logi
 
 <img src="../../../images/ReleasePipeline.png" alt="Pipeline" height="500px"/>
 
-Figure 5: CD Pipeline definition with variables
+Figure 5: **CD Pipeline definition with variables**
 
 Prior to running the CD Pipeline, the resources for the staging environment, like ADF Instance, Azure Key Vault, etc were already created. The Managed Identity of the ADF Instance was provided access to the Key vault. Alternatively, as the first step in the CD Pipeline, a PowerShell or Bash script can be executed that first checks the existence of these resources and their requisite permissions, creates/defines them if they do not.
 
