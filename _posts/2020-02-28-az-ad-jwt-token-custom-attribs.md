@@ -15,7 +15,7 @@ Both 'EmployeeID' and 'Country' are standard attributes already available in the
 Before they can be used, the 'EmployeeID' and 'Country' User attributes in Azure AD need to be populated with values. 
 *Note: In the Azure AD Tenant I used, the 'Country' attribute values were already set for all the Employees. The 'EmployeeID' attribute values however were not.*
 
-I have used the Microsoft [[GraphExplorer] (https://developer.microsoft.com/en-us/graph/graph-explorer)]to set these values (See Figure 1). Ensure the values of these attributes are returned in the response. *Before this can be applied Enterprise-wide, this step needs to be done for all the Employees in Azure AD.*
+I have used the Microsoft [[GraphExplorer](https://developer.microsoft.com/en-us/graph/graph-explorer)]to set these values (See Figure 1). Ensure the values of these attributes are returned in the response. *Before this can be applied Enterprise-wide, setting of the values needs to be done for all the Employees in Azure AD.*
 
 <img src="../../../images/GraphExplorer.png" alt="GraphExplorer" height="500px"/>
 
