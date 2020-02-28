@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Add additional attributes to Jwt token issued by Azure AD on User authentication"
-date: 2020-02-21
+date: 2020-02-28
 ---
 ## Summary
 The JWT Token returned by Azure AD, on successful user authentication when signing into an Application, contains a default set of attributes. At times it is desirable to have certain additional returned in the JWT Token itself rather than have the Application make a separate Graph API call only to retrieve them.  In this post, I have shown how 2 attributes, e.g. the EmployeeID and the Country of residence of the User signing in, can be added to the JWT Token.
