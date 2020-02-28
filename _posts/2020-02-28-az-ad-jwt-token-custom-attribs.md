@@ -26,11 +26,11 @@ Figure 1 Graph Explorer
 The Web Application ('careerapp', in this example)that needs to be protected with Azure AD User authentication should be registered first. The steps to perform are covered [[here](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)]
 
 Ensure, the following are also done for the registered Application:
-1. The Application ID & Secret are kept handy
-2. https://www.getpostman.com/oauth2/callback is added to the list of redirect URLs in the registered application. This is for the Postman tool which I will use as the client application that accesses 'careerapp'
-3. In the manifest of the registered application, set the attribute value > "acceptMappedClaims" to true
-4. Provide the registered application with delegated access to the Graph APIs. After this, select the option 'grant Admin consent' on the Azure AD Tenant
-5. Note down the v1 Auth URL and Access Token URLs
+a.The Application ID & Secret are kept handy
+b.https://www.getpostman.com/oauth2/callback is added to the list of redirect URLs in the registered application. This is for the Postman tool which I will use as the client application that accesses 'careerapp'
+c.In the manifest of the registered application, set the attribute value > "acceptMappedClaims" to true
+d.Provide the registered application with delegated access to the Graph APIs. After this, select the option 'grant Admin consent' on the Azure AD Tenant
+e.Note down the v1 Auth URL and Access Token URLs
 
 ## Get the Service Principal Object ID:
 The Object ID of the Service principal generated above, for the 'careerapp' is required. 
@@ -53,7 +53,7 @@ I have followed the steps mentioned [[here](https://docs.microsoft.com/en-us/azu
 
 ### Claims policy creation
 
-1. The JSON used in the claims Policy creation is shown below:
+i) The JSON used in the claims Policy creation is shown below:
 
 ````
 {
@@ -77,7 +77,7 @@ I have followed the steps mentioned [[here](https://docs.microsoft.com/en-us/azu
 
 ````
 
-2. PowerShell command to create the Claims Policy:
+ii) PowerShell command to create the Claims Policy:
 
 ````
  #Install-Module -Name Az -AllowClobber -Scope CurrentUser
@@ -90,7 +90,7 @@ Connect-AzureAD -Confirm
 New-AzureADPolicy -Definition @('{"ClaimsMappingPolicy":{"Version":1,"IncludeBasicClaimSet":"true", "ClaimsSchema": [{"Source":"user","ID":"employeeid","SamlClaimType":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/employeeid","JwtClaimType":"employeeid"},{"Source":"company","ID":"tenantcountry","SamlClaimType":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country","JwtClaimType":"country"}]}}') -DisplayName "Employment Details Claim" -Type "ClaimsMappingPolicy"
 
 ````
-3. Powershell command to assign the Claims Policy to the registered Application
+iii) Powershell command to assign the Claims Policy to the registered Application
 
 This Claims Policy includes the 2 additional attributes that are to be added to the JWT Token, and this policy gets assigned to the application registered. (i.e. only when a user signs into this application will the additional attributes be returned, not for other applications)
 
