@@ -26,11 +26,11 @@ Figure 1 Graph Explorer
 The Web Application ('careerapp', in this example)that needs to be protected with Azure AD User authentication should be registered first. The steps to perform are covered [[here](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)]
 
 Ensure, the following are also done for the registered Application:
-a. The Application ID & Secret are kept handy
-b. https://www.getpostman.com/oauth2/callback is added to the list of redirect URLs in the registered application. This is for the Postman tool which I will use as the client application that accesses 'careerapp'
-c. In the manifest of the registered application, set the attribute value > "acceptMappedClaims" to true
-d. Provide the registered application with delegated access to the Graph APIs. After this, select the option 'grant Admin consent' on the Azure AD Tenant
-e. Note down the v1 Auth URL and Access Token URLs
+1. The Application ID & Secret are kept handy
+2. https://www.getpostman.com/oauth2/callback is added to the list of redirect URLs in the registered application. This is for the Postman tool which I will use as the client application that accesses 'careerapp'
+3. In the manifest of the registered application, set the attribute value > "acceptMappedClaims" to true
+4. Provide the registered application with delegated access to the Graph APIs. After this, select the option 'grant Admin consent' on the Azure AD Tenant
+5. Note down the v1 Auth URL and Access Token URLs
 
 ## Get the Service Principal Object ID:
 The Object ID of the Service principal generated above, for the 'careerapp' is required. 
