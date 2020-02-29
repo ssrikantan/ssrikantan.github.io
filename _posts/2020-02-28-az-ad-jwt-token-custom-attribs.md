@@ -60,7 +60,7 @@ I have followed the steps mentioned [[here](https://docs.microsoft.com/en-us/azu
 i) The JSON used in the claims Policy creation is shown below:
 
 
-```
+{% highlight json %}
 {
     "Version": 1,
     "IncludeBasicClaimSet": "true",
@@ -80,7 +80,7 @@ i) The JSON used in the claims Policy creation is shown below:
     ]
 }
 
-```
+{% endhighlight %}
 
 ii) PowerShell command to create the Claims Policy:
 
