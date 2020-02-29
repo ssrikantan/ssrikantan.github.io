@@ -43,10 +43,5 @@ ul.posts li {
     list-style: none;
 }
 code {
-    font-size: 0.8em;
-   
-    white-space: pre;
-    overflow: scroll;
-
-   
+    font-size: 1.5em;
 }
