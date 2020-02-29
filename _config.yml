@@ -2,10 +2,3 @@ name: Srikantan Sankaran
 permalink: /blog/:year/:month/:day/:title
 theme: jekyll-theme-tactile
 markdown: kramdown
-kramdown:
-  use_coderay: true
-  
-  coderay:
-    coderay_line_numbers:
-    coderay_tab_width: 2
-    coderay_css: class
