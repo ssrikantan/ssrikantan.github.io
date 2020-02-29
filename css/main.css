@@ -43,6 +43,7 @@ ul.posts li {
     list-style: none;
 }
 code {
-    font-size: 1em;
+    font-size: 1.5em;
     white-space: pre-wrap;
+    color: #787;
 }
