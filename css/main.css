@@ -43,10 +43,10 @@ ul.posts li {
     list-style: none;
 }
 code {
-    font-size: 1.5em;
-    .typeset pre {
+    font-size: 0.8em;
+   
     white-space: pre;
     overflow: scroll;
-}
+
    
 }
