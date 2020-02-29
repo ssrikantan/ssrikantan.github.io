@@ -39,5 +39,6 @@ ul.posts {
 }
 
 ul.posts li {
+    font-size: 3em;
     list-style: none;
 }
