@@ -35,7 +35,8 @@ Ensure, the following are also done for the registered Application:
 </ul>
 
 ## Get the Service Principal Object ID:
-The Object ID of the Service principal generated above, for the 'careerapp' is required. 
+The Object ID of the Service principal generated above, for the 'careerapp', is required.
+
 *Note that this is different from the Object ID of the Application registered above*
 
 The following Azure AD Powershell command returns the ObjectID of the Service Principal.
@@ -57,6 +58,7 @@ I have followed the steps mentioned [[here](https://docs.microsoft.com/en-us/azu
 
 i) The JSON used in the claims Policy creation is shown below:
 
+<p>
 ````
 {
     "Version": 1,
@@ -78,6 +80,7 @@ i) The JSON used in the claims Policy creation is shown below:
 }
 
 ````
+</p>
 
 ii) PowerShell command to create the Claims Policy:
 
