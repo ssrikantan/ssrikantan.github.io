@@ -59,7 +59,8 @@ I have followed the steps mentioned [[here](https://docs.microsoft.com/en-us/azu
 
 i) The JSON used in the claims Policy creation is shown below :-
 
-{% highlight json %}
+<pre>
+<code>
 {
     "Version": 1,
     "IncludeBasicClaimSet": "true",
@@ -79,27 +80,31 @@ i) The JSON used in the claims Policy creation is shown below :-
     ]
 }
 
-{% endhighlight %}
+</code>
+</pre>
 
-ii) PowerShell command to create the Claims Policy:
+ii)Create the Claims Policy:
 
-```
- #Install-Module -Name Az -AllowClobber -Scope CurrentUser
+<pre>
+<code>
+#Install-Module -Name Az -AllowClobber -Scope CurrentUser
 
 Connect-AzureAD -Confirm
 # Object ID of service Principal is d6f8ca13-e9b6-459d-8481-d40933cd0d42
 # App ID is 0ddd4a70-a813-4079-8ca8-e2fc5ced8f09
 
-```
+</code>
+</pre>
 
-
-{% highlight powershell %}
+<pre>
+<code>
 
 New-AzureADPolicy -Definition @('{"ClaimsMappingPolicy":{"Version":1,"IncludeBasicClaimSet":"true", "ClaimsSchema": [{"Source":"user","ID":"employeeid","SamlClaimType":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/employeeid","JwtClaimType":"employeeid"},{"Source":"company","ID":"tenantcountry","SamlClaimType":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country","JwtClaimType":"country"}]}}') -DisplayName "Employment Details Claim" -Type "ClaimsMappingPolicy"
 
-{% endhighlight %}
+</code>
+</pre>
 
-iii) Powershell command to assign the Claims Policy to the registered Application
+iii) Assign the Claims Policy to the registered Application
 
 This Claims Policy includes the 2 additional attributes that are to be added to the JWT Token, and this policy gets assigned to the application registered. (i.e. only when a user signs into this application will the additional attributes be returned, not for other applications)
 
