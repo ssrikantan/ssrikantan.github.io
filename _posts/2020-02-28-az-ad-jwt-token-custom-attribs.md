@@ -42,12 +42,13 @@ The Object ID of the Service principal generated above, for the 'careerapp', is 
 The following Azure AD Powershell command returns the ObjectID of the Service Principal.
 The Azure AD Powershell Modules need to be installed first; see [[here](https://www.powershellgallery.com/packages/AzureADPreview)]
 
-_this is powershell code_
-`PS C:\Users\onepageradmin\Desktop> Get-AzureADServicePrincipal -SearchString "careerapp"
+```
+PS C:\Users\onepageradmin\Desktop> Get-AzureADServicePrincipal -SearchString "careerapp"
 
 ObjectId                             AppId                                DisplayName
 --------                             -----                                -----------
-d6f8ca13-e9b6-459d-8481-d40933cd0d42 0ddd4a70-a813-4079-8ca8-e2fc5ced8f09 careerapp `
+d6f8ca13-e9b6-459d-8481-d40933cd0d42 0ddd4a70-a813-4079-8ca8-e2fc5ced8f09 careerapp
+```
 
 ## Create and assign an Azure AD Claims Policy for the registered Application
 I have followed the steps mentioned [[here](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-claims-mapping#example-create-and-assign-a-policy-to-include-the-employeeid-and-tenantcountry-as-claims-in-tokens-issued-to-a-service-principal)]
