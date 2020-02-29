@@ -42,3 +42,7 @@ ul.posts li {
     font-size: 3em;
     list-style: none;
 }
+code {
+    font-size: 3em;
+    white-space: pre-wrap;
+}
