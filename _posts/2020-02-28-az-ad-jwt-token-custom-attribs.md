@@ -58,7 +58,7 @@ I have followed the steps mentioned [[here](https://docs.microsoft.com/en-us/azu
 ### Claims policy creation
 
 i) The JSON used in the claims Policy creation is shown below:
-
+(modified snippet)
 
 {% highlight json %}
 {
