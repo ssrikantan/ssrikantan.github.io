@@ -44,4 +44,5 @@ ul.posts li {
 }
 code {
     font-size: 1.5em;
+    overflow: hidden;
 }
