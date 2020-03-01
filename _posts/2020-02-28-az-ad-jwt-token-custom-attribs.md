@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Add additional attributes to Jwt token issued by Azure AD on User authentication"
+title: "Customising Azure AD JWT Claim Token"
 date: 2020-02-28
 ---
 ## Summary
