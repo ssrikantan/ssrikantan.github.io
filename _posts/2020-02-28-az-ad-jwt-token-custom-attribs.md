@@ -92,11 +92,16 @@ Connect-AzureAD -Confirm
 
 ```
 
-```
+ <div class="scrollable">
+      <table>
+        <tr>
+          <td>New-AzureADPolicy -Definition @('{"ClaimsMappingPolicy":{"Version":1,"IncludeBasicClaimSet":"true", "ClaimsSchema": [{"Source":"user","ID":"employeeid","SamlClaimType":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/employeeid","JwtClaimType":"employeeid"},{"Source":"company","ID":"tenantcountry","SamlClaimType":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country","JwtClaimType":"country"}]}}') -DisplayName "Employment Details Claim" -Type "ClaimsMappingPolicy"</td>
+        </tr>
+    </table>
+    </div>
 
-New-AzureADPolicy -Definition @('{"ClaimsMappingPolicy":{"Version":1,"IncludeBasicClaimSet":"true", "ClaimsSchema": [{"Source":"user","ID":"employeeid","SamlClaimType":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/employeeid","JwtClaimType":"employeeid"},{"Source":"company","ID":"tenantcountry","SamlClaimType":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country","JwtClaimType":"country"}]}}') -DisplayName "Employment Details Claim" -Type "ClaimsMappingPolicy"
 
-```
+*added code snippet*
 iii) Assign the Claims Policy to the registered Application
 
 This Claims Policy includes the 2 additional attributes that are to be added to the JWT Token, and this policy gets assigned to the application registered. (i.e. only when a user signs into this application will the additional attributes be returned, not for other applications)
