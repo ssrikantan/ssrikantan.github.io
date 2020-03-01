@@ -30,7 +30,7 @@ Ensure, the following are also done for the registered Application:
 <li><p>The Application ID & Secret are kept handy</p></li>
 <li><p>https://www.getpostman.com/oauth2/callback is added to the list of redirect URLs in the registered application. This is for the Postman tool which I will use as the client application that accesses 'careerapp'</p></li>
 <li><p>In the manifest of the registered application, set the attribute value > "acceptMappedClaims" to true</p></li>
-<li><p>Provide the registered application with delegated access to the Graph APIs. After this, select the option 'grant Admin consent' on the Azure AD Tenant</p></li>
+<li><p>Provide the registered application with delegated access to the Graph APIs. After this, select the option 'grant Admin consent' on the Azure AD Tenant (assigned Graph API access to Sign users in, Read users' basic profile)</p></li>
 <li><p>Note down the v1 Auth URL and Access Token URLs</p></li>
 </ul>
 
