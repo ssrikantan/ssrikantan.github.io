@@ -2,3 +2,4 @@ name: Srikantan Sankaran
 permalink: /blog/:year/:month/:day/:title
 theme: jekyll-theme-tactile
 markdown: kramdown
+highlighter: rouge
