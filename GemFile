@@ -1,0 +1,2 @@
+gem "Jekyll-theme-tactile"
+gem 'github-pages', group: :jekyll_plugins
