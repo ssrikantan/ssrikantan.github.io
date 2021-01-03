@@ -63,7 +63,8 @@ Now, we can explore data in this Table using the rich SQL Syntax that Databricks
 
 The screen shot below shows sample SQL Commands executed on the Delta Table
 
-<img src="../../../images/DbricksCsvdata.png" alt="QueryCsvDataLake" height="500px"/>
+<img src="../../../images/DbricksCsvdata.png" alt="QueryCsvDataLake" height="750px"/>
+
 Figure 1 Query CSV File in Data Lake Directly
 
 ```SQL
@@ -93,7 +94,9 @@ CREATE TABLE default.census USING DELTA LOCATION 'abfss://synapsestr@synenvstora
 
 SELECT * FROM default.census
 ```
-<img src="../../../images/DeltaTableCreateAndQuery.png" alt="QueryDeltaLake" height="500px"/>
+<img src="../../../images/DeltaTableCreateAndQuery.png" alt="QueryDeltaLake" height="750px"/>
+
+
 Figure 2 Query Delta Lake Directly
 
 ##### Delta Table - DML Statements support
@@ -150,7 +153,8 @@ FROM
 
 ```
 The screenshot below shows the response to the query 
-<img src="../../../images/SynapseAdlsCsv.png" alt="QueryDataLake" height="500px"/>
+<img src="../../../images/SynapseAdlsCsv.png" alt="QueryDataLake" height="750px"/>
+
 Figure 3 Query CSV File in ADLS Gen2 Directly
 
 
@@ -172,7 +176,8 @@ where result.filepath(1) = 'Financial position'
 ```
 
 The screenshot below shows the response to the query 
-<img src="../../../images/QueryParquetPredicatePushdown.png" alt="PredicatePushDown" height="500px"/>
+<img src="../../../images/QueryParquetPredicatePushdown.png" alt="PredicatePushDown" height="750px"/>
+
 Figure 4 Query partitioned parquet Files in ADLS Gen2
 
 ```SQL
@@ -235,7 +240,8 @@ df.write.format("delta").save("/delta/censusdata");
 ```
 
 See below for the output from the Spark Job
-<img src="../../../images/CreateDeltaFromCsv.png" alt="DeltaFromCsv" height="500px"/>
+<img src="../../../images/CreateDeltaFromCsv.png" alt="DeltaFromCsv" height="750px"/>
+
 Figure 5 Creating a Delta Table from a CSV File in ADLS Gen2
 
 
@@ -250,11 +256,13 @@ In this example, I have used the sample census dataset used earlier in the artic
 The steps described [here](https://docs.microsoft.com/en-us/power-bi/transform-model/dataflows/dataflows-create) were performed, to connect to the ADLS Gen2 account that contains the multiple CSV Files to be used for exploration.
 
 The Mashup Editor/Wizard in Power BI Designer shows the different files detected in ADLS Gen2 location, and provides an option to combine all the files
-<img src="../../../images/PBI Designer-Part1.png" alt="Dataflow1" height="500px"/>
+<img src="../../../images/PBI-Designer-Part1.png" alt="Dataflow1" height="750px"/>
+
 Figure 6 Power BI Designer - Wizard - step 1
 
 The next step in the Wizard displays the contents of the different CSV Files after they were combined in the previous step. See below:
-<img src="../../../images/PBI Designer-Part2.png" alt="Dataflow2" height="500px"/>
+<img src="../../../images/PBI Designer-Part2.png" alt="Dataflow2" height="750px"/>
+
 Figure 7 Power BI Designer - Wizard - step 2
 
 Use the options in the Power Query wizard to Sort, filter data, perform count of rows, change data types, perform aggregations. These steps can be performed by a user without any knowledge of SQL or Spark. While the menu options in the wizard provides the most commonly used features for data exploration and transformation, additional calculations and advanced computations can be performed by writing Code using the ['M' Language](https://docs.microsoft.com/en-us/powerquery-m/).
