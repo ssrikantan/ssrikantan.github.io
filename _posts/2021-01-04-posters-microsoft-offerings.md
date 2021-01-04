@@ -22,3 +22,5 @@ The Power BI Report can be accessed [here](https://msit.powerbi.com/view?r=eyJrI
 
 (Pl note that loading of the report might take some time initially)
 
+It is intended that the Power BI Report would be saved as a PDF Document to be printed in A3 sized paper.
+
