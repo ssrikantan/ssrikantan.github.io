@@ -6,7 +6,7 @@ date: 2021-01-03
 ## Summary
 
 Performing exploration on unstructured data and semi structured data usually involves the preliminary step of loading the data first into a Data Warehouse, followed by using the tools the latter provides to run SQL Statements on it. This meant that data had to be redundantly maintained in two places, since there were no tools availabe to perform data exploration directly on the Data Lake Store.
-The advent of services like Azure Synapse Analytics, Azure Databricks - SQL Analytics (* the service is in Public Preview at the time of this writing*) have brought the world of Data Lake and Data Warehouse together through the support for a [Lakehouse Architecture](https://databricks.com/glossary/data-lakehouse). 
+The advent of services like Azure Synapse Analytics, Azure Databricks - SQL Analytics (*the service is in Public Preview at the time of this writing*) have brought the world of Data Lake and Data Warehouse together through the support for a [Lakehouse Architecture](https://databricks.com/glossary/data-lakehouse). 
 
 In this article, I will cover these topics. In addition, I will also cover how Dataflows in Power BI, and in Azure Data Factory, can be used for self service Data Warehousing, by anyone with little or no expertise with SQL or other Programming Languages
 
@@ -20,8 +20,7 @@ To connect to the ADLS Gen2 Account, the SQL Analytics endpoint has to be provid
 
 For more guidance on creating a Service Principal with access to the ADLS Gen 2 Account, and assigning it to the endpoint in Databricks, refer to [this](https://docs.databricks.com/data/data-sources/azure/azure-datalake-gen2.html#create-and-grant-permissions-to-service-principal)
 
-> [!CAUTION]
-> While the secret value is directly embedded in the config section below, a good practice would be to embed the secret inside a Scope in Databricks, and use the Scope name instead in the configuration here.
+**While the secret value is directly embedded in the config section below, a good practice would be to embed the secret inside a Scope in Databricks, and use the Scope name instead in the configuration here.**
 
 ````
 spark.hadoop.fs.azure.account.auth.type.<adls account name>.dfs.core.windows.net OAuth
@@ -35,7 +34,7 @@ spark.hadoop.fs.azure.account.oauth2.client.endpoint.<adls account name>.dfs.cor
 
 SQL Analytics supports different formats for the raw, unstructured data in the underlying Data Lake, like Parquet, ORC, CSV, Delta, etc. 
 
-#### Create Table in Databricks SQL Analytics pointing to the Data Source in ADLS
+1) Create Table in Databricks SQL Analytics pointing to the Data Source in ADLS
 
 Creating a Table creates a reference in Databricks SQL Analytics to the underlying unstructured Data source in ADLS Gen2, along with the Schema of the data. SQL Queries issued on this Table are executed directly on the data in the Data Source. Refer to ['CREATE TABLE USING' - OPTION](https://docs.databricks.com/spark/latest/spark-sql/language-manual/sql-ref-syntax-ddl-create-table-datasource.html) for the syntax and options to create the Table
 
@@ -57,7 +56,7 @@ CREATE TABLE censusdata (
   Industry_code_ANZSIC06 STRING
 ) USING CSV LOCATION 'abfss://synapsestr@synenvstorage.dfs.core.windows.net/samples/SurveyDataSample.csv';
 ```
-#### Explore Data using SQL Statements
+2) Explore Data using SQL Statements
 
 Now, we can explore data in this Table using the rich SQL Syntax that Databricks SQL Analytics supports. Refer to the [SQL Reference Guide](https://docs.databricks.com/sql/language-manual/sql-ref-syntax-qry-select.html)
 
@@ -65,15 +64,15 @@ The screen shot below shows sample SQL Commands executed on the Delta Table
 
 <img src="../../../images/DbricksCsvdata.png" alt="QueryCsvDataLake" height="750px"/>
 
-Figure 1 Query CSV File in Data Lake Directly
+Figure 1 - Query CSV File in Data Lake Directly
 
 ```SQL
 SELECT Count(*), Variable_category, SUM(Value) FROM default.census GROUP BY Variable_Category
 ```
 
-#### Additional features with Delta Table as the underlying Data Source
+3) Additional features with Delta Table as the underlying Data Source
 
-##### Table creation is optional
+3a) Table creation is optional
 
 When the underlying Data Source is a Delta Table, then creation of a Table in Databricks SQL Analytics is optional. Queries can be directly issued on the Delta Table specifying its location. Alternatively, When a Table is created, operations on this Table execute on the Delta Table in ADLS Gen2.
 
@@ -97,20 +96,18 @@ SELECT * FROM default.census
 <img src="../../../images/DeltaTableCreateAndQuery.png" alt="QueryDeltaLake" height="750px"/>
 
 
-Figure 2 Query Delta Lake Directly
+Figure 2 - Query Delta Lake Directly
 
-##### Delta Table - DML Statements support
+3b) Delta Table - DML Statements support
 
 All data operations like Inserts, Upserts, performing Time travel, etc on the delta Table can be performed directly from the Query Editor of Databricks SQL Analytics. 
 
 DML Statements on the Table in Databricks SQL Analytics would execute on the underlying Delta Table in ADLS Gen2.
 
-> [!NOTE]
-> DML Statements cannot be executed when the underlying data source is other than Delta Table
+**DML Statements cannot be executed when the underlying data source is other than Delta Table**
 
 
-> [!NOTE]
-> When specifying a Table pointing to the underlying Delta Table in ADLS Gen2, Databricks SQL Analytics acts as a serving layer for Power BI Reports. Refer to [documentation](https://docs.microsoft.com/en-us/azure/databricks/integrations/bi/power-bi) for the steps to use the Databricks Connector in Power BI to connect to the Table in SQL Analytics.
+**When specifying a Table pointing to the underlying Delta Table in ADLS Gen2, Databricks SQL Analytics acts as a serving layer for Power BI Reports. Refer to [documentation](https://docs.microsoft.com/en-us/azure/databricks/integrations/bi/power-bi) for the steps to use the Databricks Connector in Power BI to connect to the Table in SQL Analytics.**
 
 Refer to the Databricks [SQL Analytics documentation](https://docs.microsoft.com/en-us/azure/databricks/sql/user/) to explore the other features that it provides.
 
@@ -124,11 +121,11 @@ Like with Databricks SQL Analytics, this tool can be used by Users with no knowl
 
 Synapse Analytics requires a 'Primary' Azure Data Lake Store Gen2 (ADLS) Account to be associated. Additional ADLS Accounts can also be associated as 'Linked Services'. The data for exploration can exist in either of these Accounts. Linked Services can also include Azure Blob Storage Accounts that host the unstructured data for exploration.
 
-#### Working with different Data Source formats
+1) Working with different Data Source formats
 
 Synapse Analytics can connect to Data Source formats like CSV, Parquet, Json, etc
 
-##### Query CSV Files in ADLS Gen 2
+1a) Query CSV Files in ADLS Gen 2
 
 For CSV Files, the Schema has to be specified in the Query
 ```SQL
@@ -155,10 +152,10 @@ FROM
 The screenshot below shows the response to the query 
 <img src="../../../images/SynapseAdlsCsv.png" alt="QueryDataLake" height="750px"/>
 
-Figure 3 Query CSV File in ADLS Gen2 Directly
+Figure 3 - Query CSV File in ADLS Gen2 Directly
 
 
-##### Query Parquet Files in ADLS Gen 2
+1b) Query Parquet Files in ADLS Gen 2
 
 The example below shows how predicate push down is used to query parquet data that is partitioned. The column 'Variable_category' used to partition the data in the Parquet file, is used as a filter in the query.
 File metadata is used in the example below. Presently, 'filepath' and 'filename' are the two metadata options available in Synapse. Refer to [this](https://docs.microsoft.com/en-gb/azure/synapse-analytics/sql/query-specific-files) link for more information
@@ -178,7 +175,7 @@ where result.filepath(1) = 'Financial position'
 The screenshot below shows the response to the query 
 <img src="../../../images/QueryParquetPredicatePushdown.png" alt="PredicatePushDown" height="750px"/>
 
-Figure 4 Query partitioned parquet Files in ADLS Gen2
+Figure 4 - Query partitioned parquet Files in ADLS Gen2
 
 ```SQL
 --Execute count queries on the data based on partitions
@@ -191,7 +188,7 @@ FROM
 where result.filepath(1) = 'Financial position'
 ```
 
-##### Create Views to store the Query results
+1c) Create Views to store the Query results
 
 Database views can be created directly on the Parquet Data. Queries run on the Views would be executed on the Parquet data in ADLS Gen2.
 The snippet below creates a Database View based on the entire Parquet data. It includes the values for the Partitions as columns in the View that can be queried upon
@@ -220,10 +217,9 @@ FROM
     ) AS [result]
 where result.filepath(1) = 'Financial position'
 ```
-> [!NOTE]
-> When specifying a View or a Table pointing to the underlying Parquet files in ADLS Gen2, Azure Synpase Analytics Serverless Pool acts as a serving layer for Power BI Reports. Refer to [documentation](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql/get-started-power-bi-professional) for the steps.
+**When specifying a View or a Table pointing to the underlying Parquet files in ADLS Gen2, Azure Synpase Analytics Serverless Pool acts as a serving layer for Power BI Reports. Refer to [documentation](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql/get-started-power-bi-professional) for the steps.**
 
-##### Query Delta Files in ADLS Gen 2
+1d) Query Delta Files in ADLS Gen 2
 
 I have used the dedicated Spark Pool available in Synapse Analytics to demonstrate the querying of data from Delta Tables.
 
@@ -242,7 +238,7 @@ df.write.format("delta").save("/delta/censusdata");
 See below for the output from the Spark Job
 <img src="../../../images/CreateDeltaFromCsv.png" alt="DeltaFromCsv" height="750px"/>
 
-Figure 5 Creating a Delta Table from a CSV File in ADLS Gen2
+Figure 5 - Creating a Delta Table from a CSV File in ADLS Gen2
 
 
 ## Power BI Dataflows
@@ -256,14 +252,14 @@ In this example, I have used the sample census dataset used earlier in the artic
 The steps described [here](https://docs.microsoft.com/en-us/power-bi/transform-model/dataflows/dataflows-create) were performed, to connect to the ADLS Gen2 account that contains the multiple CSV Files to be used for exploration.
 
 The Mashup Editor/Wizard in Power BI Designer shows the different files detected in ADLS Gen2 location, and provides an option to combine all the files
-<img src="../../../images/PBI-Designer-Part1.png" alt="Dataflow1" height="750px"/>
+<img src="../../../images/PBI Designer-Part2.png" alt="Dataflow1" height="750px"/>
 
-Figure 6 Power BI Designer - Wizard - step 1
+Figure 6 - Power BI Designer - Wizard - step 1
 
 The next step in the Wizard displays the contents of the different CSV Files after they were combined in the previous step. See below:
-<img src="../../../images/PBI Designer-Part2.png" alt="Dataflow2" height="750px"/>
+<img src="../../../images/PBI-Designer-Part1.png" alt="Dataflow2" height="750px"/>
 
-Figure 7 Power BI Designer - Wizard - step 2
+Figure 7 - Power BI Designer - Wizard - step 2
 
 Use the options in the Power Query wizard to Sort, filter data, perform count of rows, change data types, perform aggregations. These steps can be performed by a user without any knowledge of SQL or Spark. While the menu options in the wizard provides the most commonly used features for data exploration and transformation, additional calculations and advanced computations can be performed by writing Code using the ['M' Language](https://docs.microsoft.com/en-us/powerquery-m/).
 
@@ -272,7 +268,6 @@ Refer to this [link](https://docs.microsoft.com/en-us/power-query/get-data-exper
 The other advantages of this approach are that it does not require the provisioning of any Azure Services, can be performed right within the Power BI Designer. Using the Designer requires the user to have a Power BI Pro License. A default capacity of computational resources, storage are allocated to the 'Shared capacity' associated to the Pro License by default. When dealing with larger datasets and for a better user experience, the Pro License can be associated to higher compute and memory resources through Power BI Premium.
 
 This approach can be used for data sources with CSV, Json file types, but cannot be used for Parquet or Delta Tables at the time of this writing. While individual Parquet files can be used for exploration, it is not possible to combine multiple Parquet files inside a folder.
-
 
 ## Wrangling Dataflows in Azure Data Factory
 
