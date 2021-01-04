@@ -12,13 +12,13 @@ In this article, I will cover these topics. In addition, I will also cover how D
 
 ## Azure Databricks - SQL Analytics
 
-SQL Analytics can be used to perform ad-hoc queries on Delta Lake tables stored in ADLS Gen2. Refer to the docUmentation [here](https://docs.microsoft.com/en-us/azure/databricks/sql/admin/sql-endpoints) to understand how to enrol for the Public Preview, to provision an Endpoint in Databricks with an appropriate SKU Size. For this exploration, a X-Small Cluster SKU was used. Using the SQL Analytics end point allows even users with little knowledge of Spark to perform Data Exploration.
+SQL Analytics can be used to perform ad-hoc queries on Delta Lake tables stored in ADLS Gen2. Refer to the documentation [here](https://docs.microsoft.com/en-us/azure/databricks/sql/admin/sql-endpoints) to understand how to enrol for the Public Preview, to provision an Endpoint in Databricks with an appropriate SKU Size. For this exploration, a X-Small Cluster SKU was used. Using the SQL Analytics end point allows even users with little knowledge of Spark to perform Data Exploration.
 
 ### Assign access to the ADLS Gen2 Account
 
-To connect to the ADLS Gen2 Account, the SQL Analytics endpoint has to be provided access to it, as explained [here](https://docs.microsoft.com/en-us/azure/databricks/sql/admin/data-access-configuration#allow-endpoints-to-access-storage). 
+To connect to the ADLS Gen2 Account, the SQL Analytics endpoint has to be provided access, as explained [here](https://docs.microsoft.com/en-us/azure/databricks/sql/admin/data-access-configuration#allow-endpoints-to-access-storage). 
 
-For more guidance on creating a Service Principal with access to the ADLS Gen 2 Account, and assigning it to the endpoint in Databricks, refer to [this](https://docs.databricks.com/data/data-sources/azure/azure-datalake-gen2.html#create-and-grant-permissions-to-service-principal)
+For more guidance on creating a Service Principal with access to the ADLS Gen 2 Account, and assigning it to the endpoint in Databricks, refer to [the](https://docs.databricks.com/data/data-sources/azure/azure-datalake-gen2.html#create-and-grant-permissions-to-service-principal) documentation here.
 
 **While the secret value is directly embedded in the config section below, a good practice would be to embed the secret inside a Scope in Databricks, and use the Scope name instead in the configuration here.**
 
@@ -42,23 +42,14 @@ Optionally, specifying the option 'WITH SELECT' when creating the table, populat
 
 The SQL Statement below creates an 'employee' Table in Databricks SQL Analytics based on a CSV file in ADLS Gen2
 
-```SQL
-CREATE TABLE censusdata (
-  Year INTEGER,
-  Industry_aggregation_NZSIOC STRING,
-  Industry_code_NZSIOC STRING,
-  Industry_name_NZSIOC STRING,
-  Units STRING,
-  Variable_code STRING,
-  Variable_name STRING,
-  Variable_category STRING,
-  Value INTEGER,
-  Industry_code_ANZSIC06 STRING
-) USING CSV LOCATION 'abfss://synapsestr@synenvstorage.dfs.core.windows.net/samples/SurveyDataSample.csv';
-```
+
 2) Explore Data using SQL Statements
 
-Now, we can explore data in this Table using the rich SQL Syntax that Databricks SQL Analytics supports. Refer to the [SQL Reference Guide](https://docs.databricks.com/sql/language-manual/sql-ref-syntax-qry-select.html)
+Now, we can explore data in this Table using the rich SQL Syntax that Databricks SQL Analytics supports. Refer to the [SQL Reference Guide](https://docs.databricks.com/sql/language-manual/sql-ref-syntax-qry-select.html). A simple example shown below:
+
+```SQL
+SELECT Count(*), Variable_category, SUM(Value) FROM default.census GROUP BY Variable_Category
+```
 
 The screen shot below shows sample SQL Commands executed on the Delta Table
 
@@ -66,33 +57,16 @@ The screen shot below shows sample SQL Commands executed on the Delta Table
 
 Figure 1 - Query CSV File in Data Lake Directly
 
-```SQL
-SELECT Count(*), Variable_category, SUM(Value) FROM default.census GROUP BY Variable_Category
-```
 
 3) Additional features with Delta Table as the underlying Data Source
 
 3a) Table creation is optional
 
-When the underlying Data Source is a Delta Table, then creation of a Table in Databricks SQL Analytics is optional. Queries can be directly issued on the Delta Table specifying its location. Alternatively, When a Table is created, operations on this Table execute on the Delta Table in ADLS Gen2.
+When the underlying Data Source is a Delta Table, then creation of a Table in Databricks SQL Analytics is optional. Queries can be directly issued on the Delta Table specifying its location. 
+If a Table is created, then operations on it execute on the Delta Table in ADLS Gen2.
 
-See below:
-
-```SQL
-SELECT
-  *
-FROM
-  delta.`abfss://targetstore@sourcelake.dfs.core.windows.net/baseTableLarge`
-```
 The screen shot below shows how to create a Table in Databricks SQL Analytics that points to the Delta Table in ADLS Gen2, and executing queries on this table.  
 
-```SQL
-SELECT * FROM delta.`abfss://synapsestr@synenvstorage.dfs.core.windows.net/delta/censusdata`
-
-CREATE TABLE default.census USING DELTA LOCATION 'abfss://synapsestr@synenvstorage.dfs.core.windows.net/delta/censusdata'
-
-SELECT * FROM default.census
-```
 <img src="../../../images/DeltaTableCreateAndQuery.png" alt="QueryDeltaLake" height="750px"/>
 
 
@@ -128,27 +102,7 @@ Synapse Analytics can connect to Data Source formats like CSV, Parquet, Json, et
 1a) Query CSV Files in ADLS Gen 2
 
 For CSV Files, the Schema has to be specified in the Query
-```SQL
- SELECT
-  *
-FROM
-    OPENROWSET(
-        BULK 'https://synenvstorage.dfs.core.windows.net/synapsestr/samples/SurveyDataSample.csv',
-        FORMAT='CSV'
-    ) with (
-        Year int 1,
-        Industry_aggregation_NZSIOC varchar(10) 2,
-        Industry_code_NZSIOC varchar(25) 3,
-        Industry_name_NZSIOC varchar(100) 4,
-        Units varchar(25) 5,
-        Variable_code varchar(10) 6,
-        Variable_name varchar(100) 7,
-        Variable_category varchar(50) 8,
-        Value numeric 9,
-        Industry_code_ANZSIC06 varchar(200) 10
-    ) AS [result]
 
-```
 The screenshot below shows the response to the query 
 <img src="../../../images/SynapseAdlsCsv.png" alt="QueryDataLake" height="750px"/>
 
@@ -160,17 +114,6 @@ Figure 3 - Query CSV File in ADLS Gen2 Directly
 The example below shows how predicate push down is used to query parquet data that is partitioned. The column 'Variable_category' used to partition the data in the Parquet file, is used as a filter in the query.
 File metadata is used in the example below. Presently, 'filepath' and 'filename' are the two metadata options available in Synapse. Refer to [this](https://docs.microsoft.com/en-gb/azure/synapse-analytics/sql/query-specific-files) link for more information
 
-```SQL
--- Use Push Down predicates to query partitioned data
-SELECT top 100
- *, result.filepath(1) Variable_category
-FROM
-    OPENROWSET(
-        BULK 'https://synenvstorage.dfs.core.windows.net/synapsestr/parquet/censusdata/Variable_category=*/',
-        FORMAT='PARQUET'
-    ) AS [result]
-where result.filepath(1) = 'Financial position'
-```
 
 The screenshot below shows the response to the query 
 <img src="../../../images/QueryParquetPredicatePushdown.png" alt="PredicatePushDown" height="750px"/>
