@@ -8,7 +8,7 @@ date: 2021-01-03
 Performing exploration on unstructured data and semi structured data usually involves the preliminary step of loading the data first into a Data Warehouse, followed by using the tools the latter provides to run SQL Statements on it. This meant that data had to be redundantly maintained in two places, since there were no tools availabe to perform data exploration directly on the Data Lake Store.
 The advent of services like Azure Synapse Analytics, Azure Databricks - SQL Analytics (*the service is in Public Preview at the time of this writing*) have brought the world of Data Lake and Data Warehouse together through the support for a [Lakehouse Architecture](https://databricks.com/glossary/data-lakehouse). 
 
-In this article, I will cover these topics. In addition, I will also cover how Dataflows in Power BI, and in Azure Data Factory, can be used for self service Data Warehousing, by anyone with little or no expertise with SQL or other Programming Languages
+In this article, I will cover these topics. In addition, I will also cover how Dataflows in Power BI, and in Azure Data Factory, can be used for self service Data wrangling, by anyone with little or no expertise with SQL or other Programming Languages
 
 ## Azure Databricks - SQL Analytics
 
