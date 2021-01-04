@@ -53,7 +53,7 @@ SELECT Count(*), Variable_category, SUM(Value) FROM default.census GROUP BY Vari
 
 The screen shot below shows sample SQL Commands executed on the Delta Table
 
-<img src="../../../images/DbricksCsvdata.png" alt="QueryCsvDataLake" height="750px"/>
+<img src="../../../images/DbricksCsvdataa.png" alt="QueryCsvDataLake" height="750px"/>
 
 Figure 1 - Query CSV File in Data Lake Directly
 
@@ -67,7 +67,7 @@ If a Table is created, then operations on it execute on the Delta Table in ADLS 
 
 The screen shot below shows how to create a Table in Databricks SQL Analytics that points to the Delta Table in ADLS Gen2, and executing queries on this table.  
 
-<img src="../../../images/DeltaTableCreateAndQuery.png" alt="QueryDeltaLake" height="750px"/>
+<img src="../../../images/DeltaTableCreateAndQuerya.png" alt="QueryDeltaLake" height="750px"/>
 
 
 Figure 2 - Query Delta Lake Directly
@@ -104,7 +104,7 @@ Synapse Analytics can connect to Data Source formats like CSV, Parquet, Json, et
 For CSV Files, the Schema has to be specified in the Query
 
 The screenshot below shows the response to the query 
-<img src="../../../images/SynapseAdlsCsv.png" alt="QueryDataLake" height="750px"/>
+<img src="../../../images/SynapseAdlsCsva.png" alt="QueryDataLake" height="750px"/>
 
 Figure 3 - Query CSV File in ADLS Gen2 Directly
 
@@ -116,7 +116,7 @@ File metadata is used in the example below. Presently, 'filepath' and 'filename'
 
 
 The screenshot below shows the response to the query 
-<img src="../../../images/QueryParquetPredicatePushdown.png" alt="PredicatePushDown" height="750px"/>
+<img src="../../../images/QueryParquetPredicatePushdowna.png" alt="PredicatePushDown" height="750px"/>
 
 Figure 4 - Query partitioned parquet Files in ADLS Gen2
 
@@ -179,7 +179,7 @@ df.write.format("delta").save("/delta/censusdata");
 ```
 
 See below for the output from the Spark Job
-<img src="../../../images/CreateDeltaFromCsv.png" alt="DeltaFromCsv" height="750px"/>
+<img src="../../../images/CreateDeltaFromCsva.png" alt="DeltaFromCsv" height="750px"/>
 
 Figure 5 - Creating a Delta Table from a CSV File in ADLS Gen2
 
