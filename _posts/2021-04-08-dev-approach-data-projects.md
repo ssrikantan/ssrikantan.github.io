@@ -2,7 +2,7 @@
 
 Implementing Engineering fundamentals and best practices when building Solutions that involve Data Engineering and Data science, have more complexity and considerations beyond those required in conventional Application Development. The IDE that ensures the best developer productivity, and how Engineering fundamentals, like ensuring code quality through Unit testing, linting, code coverage checks, are implemented, would differ across the Solution. And in such Projects, it is not just about delivering code in a consistent manner using DevOps, but also about delivering data consistently and repeatably using DataOps, and Machine Learning Models using MlOps.
 
-This article covers one such scenario, and discusses the choices made to implement Engineering Fundamentals and Development Tools to build and deploy the Solution. It also covers alternative approaches considered in the process. It also showcases how the artifacts from across Data Engineering and Data science can be deployed through an end to end Integration Testing Pipeline.
+This article covers one such scenario, and discusses the choices made to implement Engineering Fundamentals and Development Tools to build and deploy the Solution. It also covers alternative approaches considered in the process. It also showcases how the artifacts from across Data Engineering and Data science can be deployed through an end-to-end Integration Testing Pipeline.
 
 ## Solution Goals and requirements
 
@@ -12,16 +12,16 @@ To realise this Solution, development effort is required in the following areas:
 
 ### Data Engineering
 
-Raw data from upstream systems is continuosly pushed to the Landing Zone in Azure Data Lake Store Gen2 (ADLS Gen2). These are compressed files that contain data in csv, ORC formats. Autoloader in Azure Databricks is used to incrementally pick up the incoming files, extract the data in csv, ORC Formats and store them back in ADLS Gen2, as Bronze Datasets. The next stage in the ELT process involves validating the schema of the data before storing them as Silver Datasets. The final stage involves data validation and cleansing before storing as the Gold Datasets. The cleansed data is used as the base for Data Exploration, and Data science work downstream. Data in the Silver and Gold Datasets are stored in Delta Tables.
+Raw data from upstream systems is continuously pushed to the Landing Zone in Azure Data Lake Store Gen2 (ADLS Gen2). These are compressed files that contain data in csv, ORC formats. Autoloader in Azure Databricks is used to incrementally pick up the incoming files, extract the data in csv, ORC Formats and store them back in ADLS Gen2, as Bronze Datasets. The next stage in the ELT process involves validating the schema of the data before storing them as Silver Datasets. The final stage involves data validation and cleansing before storing as the Gold Datasets. The cleansed data is used as the base for Data Exploration, and Data science work downstream. Data in the Silver and Gold Datasets are stored in Delta Tables.
 
 ### Data Science
 
-Data Science Engineers use the interactive Data exloration capabilities available in Jupyter Notebooks, to explore the Gold Datasets in ADLS Gen2, merge and filter data in them to identify Features that would be  useful in the Data science Experiments. These feature Datasets are stored as Delta Tables in ADLS Gen2.
-Machine Learning Models are authored as Azure Databricks Mlflow Experiments, that leverage the Feature Datasets. Jupyter Notebooks are used for the interactive authoring of the experiments, to try out different approaches and techniques before arriving at a Machine Learning Model that provides the optimal results. Mlflow is used for tracking the outcomes from across different experiments, and to train, score and store the ML Models in the mlflow Registry.
+Data Science Engineers use the interactive Data exploration capabilities available in Jupyter Notebooks, to explore the Gold Datasets in ADLS Gen2, merge and filter data in them to identify features that would be useful in the Data science Experiments. These feature Datasets are stored as Delta Tables in ADLS Gen2.
+Machine Learning Models are authored as Azure Databricks MLflow Experiments, that leverage the Feature Datasets. Jupyter Notebooks are used for the interactive authoring of the experiments, to try out different approaches and techniques before arriving at a Machine Learning Model that provides the optimal results. MLflow is used for tracking the outcomes from across different experiments, and to train, score and store the ML Models in the MLflow Registry.
 
 ## Development Tools and approach
 
-The architecture used to host the development environment is shown below. Part of the development, particularly in Data Engineering is done directly on Azure Databricks Notebooks, and partly done locally using Visual Studio Code and Jupyter Noteboks. Dev Containers are used to package the development environment as code that can run in Docker Containers on the Developer's Machine. Inner loop development workflow is followed by which the code written locally is deployed and run inside a Databricks cluster in Azure Databricks Cluster, at development time. The ability to connect to an Azure Databricks cluster from the local development environment is done through the Jupyterlabs integration with Databricks, and also through Databricks Connect.
+The architecture used to host the development environment is shown below. Part of the development, particularly in Data Engineering is done directly on Azure Databricks Notebooks, and partly done locally using Visual Studio Code and Jupyter Notebooks. Dev Containers are used to package the development environment as code that can run in Docker Containers on the Developer's Machine. Inner loop development workflow is followed by which the code written locally is deployed and run inside a Databricks cluster in Azure Databricks Cluster, at development time. The ability to connect to an Azure Databricks cluster from the local development environment is done through the Jupyterlabs integration with Databricks, and also through Databricks Connect.
 
 <img src="../../../images/DevEnvironment.png" alt="DevEnvironment" height="750px"/>
 
@@ -30,7 +30,7 @@ The architecture used to host the development environment is shown below. Part o
 
 #### Development of ELT Pipelines - Azure Databricks Notebooks
 
-The ELT/Orchestration logic that involves read and write of the data in ADLS Gen2 is implemented as Databricks Notebooks (see 1 in the architecture diagram above). Data Engineers would use the web based IDE in Databricks to implement this functionality. Any reusable logic used across Databricks Notebooks is kept separate and authored as Python code packaged as Wheel and installed at the Notebook level. This is covered in the next sub section
+The ELT/Orchestration logic that involves read and write of the data in ADLS Gen2 is implemented as Databricks Notebooks (see 1 in the architecture diagram above). Data Engineers would use the web-based IDE in Databricks to implement this functionality. Any reusable logic used across Databricks Notebooks is kept separate and authored as Python code packaged as Wheel and installed at the Notebook level. This is covered in the next sub section.
 
 *Source Control Integration:*
 
@@ -38,7 +38,7 @@ This Databricks feature in [Preview](https://docs.microsoft.com/azure/databricks
 
 *Code Review, ability to Diff between versions:*
 
-Since the Databricks Notebooks are authred as .py files, these can be reviewed as standard Python code, and the reviewer could use the built-in diff feature in Azure DevOps to review the code changes visually, before approval.
+Since the Databricks Notebooks are authored as .py files, these can be reviewed as standard Python code, and the reviewer could use the built-in diff feature in Azure DevOps to review the code changes visually, before approval.
 
 *Code Linting & coverage:*
 
@@ -46,21 +46,21 @@ Since there are no built-in tools in the Databricks Notebook that supports linti
 
 *Unit Testing:*
 
-There is no unit Testing done in Azure Databricks Notebooks, since they only contain orchestration code that deals with reading and writing of data in ADLS Gen2. Instead, the Notebooks are integration tested, end to end, using [Nutter framework](https://github.com/microsoft/nutter), implemented as a part of the CI Pipeline. How the end to end Integration Testing was done is covered later in this article.
+There is no unit Testing done in Azure Databricks Notebooks, since they only contain orchestration code that deals with reading and writing of data in ADLS Gen2. Instead, the Notebooks are integration tested, end-to-end, using [Nutter framework](https://github.com/microsoft/nutter), implemented as a part of the CI Pipeline. How the end to end Integration Testing was done is covered later in this article.
 
 
 *Alternative approaches considered*
 
-- Author the Orchestration code in Azure Databricks, then use Databricks CLI to export the source files to VS Code locally, to perform linting and code coverage checks, before publishing to the Git Repository. This approach was relevant when the Git integration features in Databricks did not have the features that are now supported in Public preview, like workspace level integration, complete with all the Databricks Notebooks in them, and the ability to let multiple developers work on their own Feature branches in parallel
+- Author the orchestration code in Azure Databricks, then use Databricks CLI to export the source files to VS Code locally, to perform linting and code coverage checks, before publishing to the Git Repository. This approach was relevant when the Git integration features in Databricks did not have the features that are now supported in Public preview, like workspace level integration, complete with all the Databricks Notebooks in them, and the ability to let multiple developers work on their own Feature branches in parallel.
 
--  Author the orchestration code and reusable business logic in Jupyter Notebooks, and run the Notebook in the integrated Azure Databricks' kernel from Jupyterlab (a ssh "hook" between Jupyerlab and Databricks). This approach was discarded since it brought in additional complexity for the Data Engineers to deal with. Additionally, the visual code diff feature in Azure DevOps does not support Jupyter Notebooks, and it would have required additional effort to develop a component to cover the Jupyter Notebooks to .py files only for use during code review.
+- Author the orchestration code and reusable business logic in Jupyter Notebooks, and run the Notebook in the integrated Azure Databricks' kernel from Jupyterlab (a ssh "hook" between Jupyterlab and Databricks). This approach was discarded since it brought in additional complexity for the Data Engineers to deal with. Additionally, the visual code diff feature in Azure DevOps does not support Jupyter Notebooks, and it would have required additional effort to develop a component to cover the Jupyter Notebooks to .py files only for use during code review.
 
 
 #### Development of reusable business logic - Python Packages
 
-All reusable business logic like the code used to transform the data, or the code for a  generic framework for logging, handling configurations used in the Pipelines are implemented as python code that is packaged as Wheel(see 2 in the architecture diagram above). Data Engineers would use Visual Studio Code on their local machines with Dev Containers to author this logic. The Dev Container uses Conda to manage the Environment for the Python code, along with Spark.
+All reusable business logic like the code used to transform the data, or the code for a generic framework for logging, handling configurations used in the Pipelines are implemented as python code that is packaged as Wheel(see 2 in the architecture diagram above). Data Engineers would use Visual Studio Code on their local machines with Dev Containers to author this logic. The Dev Container uses Conda to manage the Environment for the Python code, along with Spark.
 
-The wheel package is installed in Databricks at Notebooks lelvel, discussed above, at runtime using [magicpip commands](https://docs.databricks.com/libraries/notebooks-python-libraries.html).
+The wheel package is installed in Databricks at the Notebook level, discussed above, at runtime using [magicpip commands](https://docs.databricks.com/libraries/notebooks-python-libraries.html).
 
 *Source Control Integration:* 
 
@@ -82,14 +82,14 @@ Done using PyTest, using mock data passed as Spark Dataframes
 ### Data Science
 
 
-### Development of Feature Engineering & ML Model - Azure Databricks Notebooks with mlflow
+### Development of Feature Engineering & ML Model - Azure Databricks Notebooks with MLflow
 
-This is represented as 4 in the Architecture diagram. Data Science Engineers would use the familiar environment of Jupyter Notebooks to author their ML Experiments, locally. It lets them perform adhoc exploration, try out different approaches before identifying the right algorithm, feature, and to train, score and evaluate the ML Model that provides the optimum results. There is not much emphasis during this process to follow all Engineering fundamentals, like unit testing, linting, code coverage, etc.
+This is represented as 4 in the Architecture diagram. Data Science Engineers would use the familiar environment of Jupyter Notebooks to author their ML Experiments, locally. It lets them perform adhoc exploration, try out different approaches before identifying the right algorithm, features, and to train, score and evaluate the ML Model that provides the optimum results. There is not much emphasis during this process to follow all Engineering fundamentals, like unit testing, linting, code coverage, etc.
 All the experiments are authored locally, but the code gets deployed and run in Azure Databricks cluster, through the Jupyterlabs integration with Databricks. 
 
-#### Refactoring of Data Science Code to Python - Azure Databricks Notebooks with mlflow
+### Refactoring of Data Science Code to Python - Azure Databricks Notebooks with MLflow
 
-This is represented as 3 in the Architecture diagram above. Once the Data Science Team has finalised on the mlflow experiment, the code from the experiment is refactored into .py files to be packaged as Wheel. This manual step is performed to ensure that all the Engineering fundamentals are followed on the Experiment code. Note that the other Experiments, created by the Data science Engineers during exploration, are excluded from this exercise. 
+This is represented as 3 in the Architecture diagram above. Once the Data Science Team has finalised on the MLflow experiment, the code from the experiment is refactored into .py files to be packaged as Wheel. This manual step is performed to ensure that all the Engineering fundamentals are followed on the Experiment code. Note that the other Experiments, created by the Data science Engineers during exploration, are excluded from this exercise. 
 
 
 ## End-to-end Integration Testing
@@ -130,7 +130,7 @@ class TestE2EIntegration(NutterFixture):
 from runtime.nutterfixture import NutterFixture
 
 class TestE2EIntegration(NutterFixture):
-    """Define test suite for end to end integration testing."""
+    """Define test suite for end-to-end integration testing."""
 
     def __init__(self, data_engineering_params, data_science_params):
         """Initialize TestE2EIntegration."""
@@ -233,9 +233,9 @@ experiment = mlflow.get_experiment_by_name(experiment_path)
 if experiment is None:
     experiment_id = mlflow.create_experiment(experiment_path)
     experiment = mlflow.get_experiment(experiment_id)
-    print("Mlflow experiment created successfully")
+    print("MLflow experiment created successfully")
 else:
-    print("Mlflow experiment already exists")
+    print("MLflow experiment already exists")
 ```
 
 > The MLflow experiment ID generated is injected into the integration test configuration template to generate the final configuration file.
@@ -282,7 +282,7 @@ In this article we have seen how we ensured, during a Data Science project, that
 ## Contributors to the article
 
 This article is co-authored by:
-[srikantan sankaran](https://www.github.com/ssrikantan)
-[Megha Patil](https://www.github.com/meghapatilcode)
-[Julien Chomarat](https://www.github.com/jchomarat)
-[Tsu Ting Kao](https://www.github.com/tsuting)
+- [Srikantan Sankaran](https://www.github.com/ssrikantan)
+- [Megha Patil](https://www.github.com/meghapatilcode)
+- [Julien Chomarat](https://www.github.com/jchomarat)
+- [Tsu-Ting Kao](https://www.github.com/tsuting)
