@@ -14,20 +14,20 @@ Data consumers need access to the Data Products that are maintained by a Data Do
 
 Microsoft Purview supports in-place Data Sharing for data residing in an Azure Blob Storage container, or in Azure Data Lake Gen2 (ADLS Gen2). A Purview Data share is created in the Data Producer's Subscription, and shared with a User who has access to the Blob Storage/ADLS Gen2in the consumer's  account. Once the handshake is established, the data is accessible to the consumer in their Storage Account directly, as 'read-only', without having to perform data copy.
 
-![architecture](../blog/images/solution-approach.jpg)
+<img src="../../../images/solution-approach.jpg" alt="solutionapproach" height="500px"/>
 
 The Storage costs are borne by the Data provider, where the data always remains, while only the transaction costs are borne by the Data consumers. A single Data share can be linked to multiple consumers.
 
 The figure below shows the Storage transaction logs on both the consumer(ADLS Gen2 Account - erpsource98) and producer (ADLS Gen2 Account - erptarget98) Storage Accounts. Observe that the data access transactions are recorded only for the consumer, when accessing the data in the source.
 
-![transaction-logs](../blog/images/data-transaction.jpg)
+<img src="../../../images/data-transaction.jpg" alt="transactions" height="500px"/>
 
 ## Access to data events in the Consumer Storage Account
 
 We have now seen how the data in the producer is always directly accessible to the data consumers. However, the systems hosted by the consumer could also require that they have access to data events as and when they occur in the producer storage account, for e.g. when a new data file is added to a folder. 
 To consider this requirement, an Azure Function App was created that has a Blob trigger configured on the container in the consumer's storage Account. Files were added to a folder in the producer's Storage Account. Observe in the figure below that the Function app is triggered every time a file is added in the producer's Storage Account.
 
-![event triggers](../blog/images/blobtrigger.jpg)
+<img src="../../../images/blobtrigger.jpg" alt="blobtrigger" height="500px"/>
 
 ## Summary
 
