@@ -27,7 +27,7 @@ The figure below shows the Storage transaction logs on both the consumer(ADLS Ge
 We have now seen how the data in the producer is always directly accessible to the data consumers. However, the systems hosted by the consumer could also require that they have access to data events as and when they occur in the producer storage account, for e.g. when a new data file is added to a folder. 
 To consider this requirement, an Azure Function App was created that has a Blob trigger configured on the container in the consumer's storage Account. Files were added to a folder in the producer's Storage Account. Observe in the figure below that the Function app is triggered every time a file is added in the producer's Storage Account.
 
-<img src="../../../images/blobtrigger.jpg" alt="blobtrigger" height="500px"/>
+<img src="../../../images/blobtrigger.jpg" alt="blobtrigger" height="750px"/>
 
 ## Summary
 
