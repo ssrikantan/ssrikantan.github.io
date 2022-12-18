@@ -1,18 +1,18 @@
 ## About this post
 
-This post dicusses the pain points that in-place data sharing with Microsoft Purview addresses, in an architecture that implements a Data Mesh.
+**This post dicusses the pain points that in-place data sharing with Microsoft Purview addresses, in an architecture that implements a Data Mesh.**
 
 Enterprises have embarked on a massive digital transformation journey, and key in that has been the endeavor to perform analysis on diverse data generated from their Systems. These are their Line of Business Applications hosted on-premise or in the Cloud, SaaS Applications hosted on different Clouds, Telemetry from their devices or applications running in their factories, or from Retail stores. Given the volume, velocity and the variety of the data sources, Organizations have moved beyond just Data Warehouses, into implementing Data Lakes and performing Big Data Analytics on them.
 
-When organizations are complex and there are a number of stakeholders that own the lifecycle of the data generated in their systems, it has becomes necessary for them adopt a Domain Driven Data Model. In this model, rather a single Central team managing the data lifecycle, each Division/Stakeholder in the organization owns that data, manages that as a Product, complete with the data engineering pipelines, how the data is stored, refreshed and offered to other entities, both internal and external to the Organization. This has been known for some time as the 'Data Mesh' architectural pattern.
+When organizations are complex and there are a number of stakeholders that own the lifecycle of the data generated in their systems, it has becomes necessary for them adopt a Domain Driven Data Model. In this model, rather then a single Central team managing the data lifecycle, each Division/Stakeholder in the organization owns their data, manages that as a Product, complete with the data engineering pipelines, how the data is stored, refreshed and offered to other entities, both internal and external to the Organization. This has been known for some time as the 'Data Mesh' architectural pattern.
 
 ## Approach used to Share of Data across Data Domains
 
-Data consumers need access to the Data Products that are maintained by a Data Domain, to perform analytics. The consumers would end up building Data pipelines to copy and store the data themselves, which entails additional expenditure, both compute and redundant storage costs.
+Data consumers need access to the Data Products that are maintained by a Data Domain, to perform analytics. The consumers would end up building Data pipelines to copy and store the data themselves, which entails additional expenditure, i.e. compute and redundant storage costs.
 
 ## In-place Data Sharing with Microsoft Purview
 
-Microsoft Purview supports in-place Data Sharing for data residing in an Azure Blob Storage container, or in Azure Data Lake Gen2 (ADLS Gen2). A Purview Data share is created in the Data Producer's Subscription, and shared with a User who has access to the Blob Storage/ADLS Gen2in the consumer's  account. Once the handshake is established, the data is accessible to the consumer in their Storage Account directly, as 'read-only', without having to perform data copy.
+Microsoft Purview supports in-place Data Sharing for data residing in an Azure Blob Storage container, or in Azure Data Lake Gen2 (ADLS Gen2). See [this](https://learn.microsoft.com/en-us/azure/purview/how-to-share-data?tabs=azure-portal) article for more details.  A Purview Data share is created in the Data Producer's Subscription, and shared with a User who has access to the Blob Storage/ADLS Gen2in the consumer's  account. Once the handshake is established, the data is accessible to the consumer in their Storage Account directly, as 'read-only', without having to perform data copy.
 
 <img src="../../../images/solution-approach.jpg" alt="solutionapproach" height="500px"/>
 
