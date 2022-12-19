@@ -16,7 +16,7 @@ Microsoft Purview supports in-place Data Sharing for data residing in an Azure B
 
 <img src="../../../images/solution-approach.jpg" alt="solutionapproach" height="500px"/>
 
-The Storage costs are borne by the Data provider, where the data always remains, while only the transaction costs are borne by the Data consumers. A single Data share can be linked to multiple consumers.
+**The Storage costs are borne by the Data provider, where the data always remains, while only the transaction costs are borne by the Data consumers. A single Data share can be linked to multiple consumers.**
 
 The figure below shows the Storage transaction logs on both the producer(ADLS Gen2 Account - erpsource98) and consumer (ADLS Gen2 Account - erptarget98) Storage Accounts. Observe that data access transactions are recorded only for the consumer, when accessing the data, even though it resides in the producer's Storage Account.
 
@@ -25,7 +25,7 @@ The figure below shows the Storage transaction logs on both the producer(ADLS Ge
 ## Access to data events in the Consumer Storage Account
 
 We have now seen how the data in the producer is always directly accessible to the data consumers. However, the systems hosted by the consumer could also require that they have access to data events as and when they occur in the producer storage account, for e.g. when a new data file is added to a folder.
-To consider this requirement, an Azure Function App was created that has a Blob trigger configured on the container in the consumer's storage Account. Files were added to a folder in the producer's Storage Account. Observe in the figure below that the Function app is triggered every time a file is added in the producer's storage account, even though the blob trigger is configured in the consumer's storage account.
+To consider this requirement, an Azure Function App was created that has a Blob trigger configured on the container in the consumer's storage Account. Files were added to a folder in the producer's Storage Account. Observe in the figure below that the Function app is triggered every time a file is added in the producer's storage account, even though the blob trigger is configured in the consumer's storage account. **This ability ensures that consumer domains have access to events from data originating in other domains right from within their own storage accounts, and the independence to determine how they process this data for down stream analytics.**
 
 <img src="../../../images/blobtrigger.jpg" alt="blobtrigger" height="750px"/>
 
