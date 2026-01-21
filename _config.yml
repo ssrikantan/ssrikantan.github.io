@@ -1,7 +1,7 @@
 # Site Settings
 name: Srikantan Sankaran
 title: Srikantan Sankaran - Tech Blog
-description: "Deep dives into Azure, Data Engineering, AI, and Cloud Architecture. Technical articles on Microsoft technologies, best practices, and real-world solutions."
+description: "Deep dives into Agentic AI, Data Engineering, AI, and Cloud Architecture. Technical articles on Microsoft technologies, best practices, and real-world solutions."
 url: "https://ssrikantan.github.io"
 baseurl: ""
 author:
@@ -9,8 +9,8 @@ author:
   email: s_srikantan@hotmail.com
   bio: "Cloud Architect & Technical Writer | Azure, Data Engineering, AI/ML"
   github: ssrikantan
-  linkedin: srikantan-sankaran
-  twitter: ssrikantan
+  linkedin: https://www.linkedin.com/in/ssrikantan/
+  twitter: SrikantanS
 
 # Permalinks
 permalink: /blog/:year/:month/:day/:title/
