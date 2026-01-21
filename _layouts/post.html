@@ -1,9 +1,113 @@
 ---
 layout: default
 ---
-<h1>{{ page.title }}</h1>
-<p class="meta">{{ page.date | date_to_string }}</p>
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    {% if page.tags.size > 0 %}
+    <div class="post-category">
+      <a href="/tags/{{ page.tags.first | slugify }}/">#{{ page.tags.first }}</a>
+    </div>
+    {% endif %}
+    
+    <h1 class="post-title" itemprop="headline">{{ page.title }}</h1>
+    
+    <div class="post-meta">
+      <div class="meta-left">
+        <span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <i class="fas fa-user"></i>
+          <span itemprop="name">{{ page.author | default: site.author.name }}</span>
+        </span>
+        <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+          <i class="far fa-calendar"></i>
+          {{ page.date | date: "%B %d, %Y" }}
+        </time>
+        {% include reading-time.html %}
+      </div>
+    </div>
+    
+    {% include tags.html %}
+  </header>
+  
+  {% if page.image %}
+  <div class="post-hero">
+    <img src="{{ page.image }}" alt="{{ page.title }}" itemprop="image">
+  </div>
+  {% endif %}
+  
+  <div class="post-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+  
+  <footer class="post-footer">
+    {% include share.html %}
+    
+    <div class="post-navigation">
+      {% if page.previous.url %}
+      <a href="{{ page.previous.url }}" class="prev-post">
+        <i class="fas fa-arrow-left"></i>
+        <div class="nav-content">
+          <span class="nav-label">Previous</span>
+          <span class="nav-title">{{ page.previous.title }}</span>
+        </div>
+      </a>
+      {% endif %}
+      
+      {% if page.next.url %}
+      <a href="{{ page.next.url }}" class="next-post">
+        <div class="nav-content">
+          <span class="nav-label">Next</span>
+          <span class="nav-title">{{ page.next.title }}</span>
+        </div>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+      {% endif %}
+    </div>
+    
+    {% if site.disqus.shortname %}
+    <div id="disqus_thread" class="comments-section"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = '{{ page.url | absolute_url }}';
+        this.page.identifier = '{{ page.url }}';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://{{ site.disqus.shortname }}.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    {% endif %}
+  </footer>
+</article>
 
-<div class="post">
-  {{ content }}
-</div>
+<!-- Related Posts -->
+{% assign maxRelated = 3 %}
+{% assign related = "" | split: "" %}
+{% for post in site.posts %}
+  {% if post.url != page.url %}
+    {% for tag in page.tags %}
+      {% if post.tags contains tag %}
+        {% assign related = related | push: post %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% if related.size >= maxRelated %}{% break %}{% endif %}
+{% endfor %}
+
+{% if related.size > 0 %}
+<aside class="related-posts">
+  <h2><i class="fas fa-bookmark"></i> Related Articles</h2>
+  <div class="related-grid">
+    {% for post in related %}
+    <a href="{{ post.url }}" class="related-card">
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.excerpt | strip_html | truncate: 100 }}</p>
+      <span class="related-date">{{ post.date | date: "%B %d, %Y" }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</aside>
+{% endif %}

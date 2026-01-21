@@ -1,8 +1,18 @@
 ---
 layout: post
-title: "Ad-hoc Exploration on unstructured data"
+title: "Ad-hoc Data Exploration on Unstructured Data in Azure"
 date: 2021-01-03
+author: Srikantan Sankaran
+tags:
+  - Azure
+  - Azure Synapse
+  - Azure Databricks
+  - Data Lake
+  - Power BI
+  - Data Exploration
+description: "Explore how to perform ad-hoc exploration on unstructured data using Azure Synapse Analytics, Databricks SQL Analytics, and Power BI Dataflows."
 ---
+
 ## Summary
 
 Performing exploration on unstructured data and semi structured data usually involves the preliminary step of loading the data first into a Data Warehouse, followed by using the tools the latter provides to run SQL Statements on it. This meant that data had to be redundantly maintained in two places, since there were no tools availabe to perform data exploration directly on the Data Lake Store.

@@ -1,4 +1,19 @@
-## **Development Approach employed in a Project involving Data Engineering & Data Science**
+---
+layout: post
+title: "Development Approach for Data Engineering & Data Science Projects"
+date: 2021-04-08
+author: Srikantan Sankaran
+tags:
+  - Azure
+  - Data Engineering
+  - Data Science
+  - MLOps
+  - DevOps
+  - Azure Databricks
+description: "Learn how to implement engineering fundamentals and best practices in Data Engineering and Data Science projects using Azure Databricks, MLflow, and DevOps."
+---
+
+## Development Approach employed in a Project involving Data Engineering & Data Science
 
 Implementing Engineering fundamentals and best practices when building Solutions that involve Data Engineering and Data science, have more complexity and considerations beyond those required in conventional Application Development. The IDE that ensures the best developer productivity, and how Engineering fundamentals, like ensuring code quality through Unit testing, linting, code coverage checks, are implemented, would differ across the Solution. And in such Projects, it is not just about delivering code in a consistent manner using DevOps, but also about delivering data consistently and repeatably using DataOps, and Machine Learning Models using MlOps.
 

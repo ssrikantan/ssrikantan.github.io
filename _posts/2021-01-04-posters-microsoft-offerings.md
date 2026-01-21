@@ -1,7 +1,14 @@
 ---
 layout: post
-title: "Posters depicting the breadth of Microsoft Product Offerings"
+title: "Posters: Complete Overview of Microsoft Product Offerings"
 date: 2021-01-04
+author: Srikantan Sankaran
+tags:
+  - Azure
+  - Microsoft
+  - Power BI
+  - Resources
+description: "Printable posters providing a bird's eye view of all Microsoft products - on-premise, Edge, and Cloud offerings."
 ---
 
 Shared here are printable posters for anyone who requires to have a bird's eye view of all the Products that Microsoft Products has to offer, be it on-premise, on the Edge or in the Cloud.

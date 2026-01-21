@@ -1,11 +1,30 @@
 ---
 layout: default
-title: Srikantan's Blog
+title: Blog
 ---
-	<h1>{{ page.title }}</h1>
-	<ul class="posts">
-
-	  {% for post in site.posts %}
-	    <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
-	  {% endfor %}
-	</ul>
+<section class="posts-section">
+  <h1><i class="fas fa-newspaper"></i> All Articles</h1>
+  
+  <div class="posts-list">
+    {% for post in site.posts %}
+    <article class="post-card">
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
+      <div class="post-meta">
+        <span><i class="far fa-calendar"></i> {{ post.date | date: "%B %d, %Y" }}</span>
+        {% assign words = post.content | strip_html | number_of_words %}
+        {% assign minutes = words | divided_by: 200 %}
+        {% if minutes < 1 %}{% assign minutes = 1 %}{% endif %}
+        <span><i class="far fa-clock"></i> {{ minutes }} min read</span>
+      </div>
+      {% if post.tags.size > 0 %}
+      <div class="post-tags">
+        {% for tag in post.tags %}
+        <a href="/tags/{{ tag | slugify }}/" class="tag">#{{ tag }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>

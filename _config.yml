@@ -1,5 +1,89 @@
+# Site Settings
 name: Srikantan Sankaran
-permalink: /blog/:year/:month/:day/:title
-theme: jekyll-theme-tactile
+title: Srikantan Sankaran - Tech Blog
+description: "Deep dives into Azure, Data Engineering, AI, and Cloud Architecture. Technical articles on Microsoft technologies, best practices, and real-world solutions."
+url: "https://ssrikantan.github.io"
+baseurl: ""
+author:
+  name: Srikantan Sankaran
+  email: s_srikantan@hotmail.com
+  bio: "Cloud Architect & Technical Writer | Azure, Data Engineering, AI/ML"
+  github: ssrikantan
+  linkedin: srikantan-sankaran
+  twitter: ssrikantan
+
+# Permalinks
+permalink: /blog/:year/:month/:day/:title/
+
+# Markdown & Syntax Highlighting
 markdown: kramdown
 highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Plugins (GitHub Pages compatible)
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+  - jekyll-relative-links
+
+# Pagination
+paginate: 10
+paginate_path: "/blog/page:num/"
+
+# Collections for tags
+collections:
+  tags:
+    output: true
+    permalink: /tags/:name/
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Srikantan Sankaran"
+      image: "/assets/images/default-og.png"
+      comments: true
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# SEO Settings
+twitter:
+  username: ssrikantan
+  card: summary_large_image
+social:
+  name: Srikantan Sankaran
+  links:
+    - https://github.com/ssrikantan
+    - https://linkedin.com/in/srikantan-sankaran
+
+# Google Analytics (replace with your ID)
+google_analytics: G-XXXXXXXXXX
+
+# Disqus Comments (optional - replace with your shortname)
+disqus:
+  shortname: ssrikantan-github-io
+
+# Build settings
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .bundle
+  - README.md
+
+# Timezone
+timezone: Asia/Kolkata

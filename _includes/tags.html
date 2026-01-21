@@ -1,0 +1,8 @@
+{% if page.tags.size > 0 %}
+<div class="post-tags">
+  <i class="fas fa-tags"></i>
+  {% for tag in page.tags %}
+    <a href="/tags/{{ tag | slugify }}/" class="tag">#{{ tag }}</a>
+  {% endfor %}
+</div>
+{% endif %}

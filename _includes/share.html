@@ -1,0 +1,43 @@
+<div class="share-buttons">
+  <span class="share-label">Share:</span>
+  
+  <a href="https://twitter.com/intent/tweet?text={{ page.title | uri_escape }}&url={{ page.url | absolute_url }}&via={{ site.twitter.username }}" 
+     target="_blank" rel="noopener" class="share-btn twitter" aria-label="Share on Twitter">
+    <i class="fab fa-twitter"></i>
+  </a>
+  
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url }}&title={{ page.title | uri_escape }}&summary={{ page.excerpt | strip_html | truncate: 100 | uri_escape }}" 
+     target="_blank" rel="noopener" class="share-btn linkedin" aria-label="Share on LinkedIn">
+    <i class="fab fa-linkedin-in"></i>
+  </a>
+  
+  <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" 
+     target="_blank" rel="noopener" class="share-btn facebook" aria-label="Share on Facebook">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+  
+  <a href="https://reddit.com/submit?url={{ page.url | absolute_url }}&title={{ page.title | uri_escape }}" 
+     target="_blank" rel="noopener" class="share-btn reddit" aria-label="Share on Reddit">
+    <i class="fab fa-reddit-alien"></i>
+  </a>
+  
+  <a href="mailto:?subject={{ page.title | uri_escape }}&body=Check out this article: {{ page.url | absolute_url }}" 
+     class="share-btn email" aria-label="Share via Email">
+    <i class="fas fa-envelope"></i>
+  </a>
+  
+  <button class="share-btn copy-link" onclick="copyLink()" aria-label="Copy link">
+    <i class="fas fa-link"></i>
+  </button>
+</div>
+
+<script>
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = document.querySelector('.copy-link');
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i>';
+    setTimeout(() => btn.innerHTML = originalHTML, 2000);
+  });
+}
+</script>

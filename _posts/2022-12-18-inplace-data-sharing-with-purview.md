@@ -1,6 +1,20 @@
+---
+layout: post
+title: "In-Place Data Sharing with Microsoft Purview for Data Mesh Architecture"
+date: 2022-12-18
+author: Srikantan Sankaran
+tags:
+  - Azure
+  - Microsoft Purview
+  - Data Mesh
+  - Data Engineering
+  - Data Governance
+description: "Learn how in-place data sharing with Microsoft Purview addresses data sprawl and enables efficient Data Mesh architecture implementation."
+---
+
 ## About this post
 
-*This post dicusses the pain points that in-place data sharing with Microsoft Purview addresses, in an architecture that implements a Data Mesh.*
+*This post discusses the pain points that in-place data sharing with Microsoft Purview addresses, in an architecture that implements a Data Mesh.*
 
 Enterprises have embarked on a massive digital transformation journey, and key in that has been the endeavor to perform analysis on diverse data generated from their Systems. These are their Line of Business Applications hosted on-premise or in the Cloud, SaaS Applications hosted on different Clouds, Telemetry from their devices or applications running in their factories, or from Retail stores. Given the volume, velocity and the variety of the data sources, Organizations have moved beyond just Data Warehouses, into implementing Data Lakes and performing Big Data Analytics on them.
 

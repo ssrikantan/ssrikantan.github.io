@@ -1,8 +1,17 @@
 ---
 layout: post
-title: "CI/CD automation of Azure Data factory Pipelines"
+title: "CI/CD Automation for Azure Data Factory Pipelines"
 date: 2020-02-21
+author: Srikantan Sankaran
+tags:
+  - Azure
+  - Azure Data Factory
+  - DevOps
+  - CI/CD
+  - Data Engineering
+description: "Complete guide to implementing CI/CD automation for Azure Data Factory pipelines using Azure DevOps and ARM templates."
 ---
+
 ## Summary
 In this post, I have taken the example of an Azure Data factory pipeline to demonstrate how CI/CD Automation can be implemented. While doing so, I have referred to the documentation [[here](https://docs.microsoft.com/en-us/azure/data-factory/continuous-integration-deployment)] for guidance.
 Azure Data factory provides the ability to author data processing pipelines, manage the resulting pipeline as a JSON document that can be source and version controlled. New and updated pipelines from development can be pushed to the staging and Production branches in Azure Devops, from where these could be deployed to the Data factory instances running in the other environments like staging and production.

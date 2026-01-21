@@ -1,0 +1,40 @@
+<header class="site-header">
+  <div class="header-container">
+    <a href="/" class="site-logo">
+      <span class="logo-text">{{ site.author.name }}</span>
+    </a>
+    
+    <nav class="main-nav" role="navigation">
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="/" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>
+        <li><a href="/blog/" {% if page.url contains '/blog' %}class="active"{% endif %}>Blog</a></li>
+        <li><a href="/tags/" {% if page.url contains '/tags' %}class="active"{% endif %}>Tags</a></li>
+        <li><a href="/about/" {% if page.url == '/about/' %}class="active"{% endif %}>About</a></li>
+      </ul>
+    </nav>
+    
+    <div class="header-actions">
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+      </button>
+      <a href="/feed.xml" class="rss-link" aria-label="RSS Feed">
+        <i class="fas fa-rss"></i>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  
+  navToggle?.addEventListener('click', () => {
+    const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', !isExpanded);
+    navLinks.classList.toggle('show');
+  });
+</script>

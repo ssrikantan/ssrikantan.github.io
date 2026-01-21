@@ -1,0 +1,53 @@
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>{{ site.author.name }}</h3>
+      <p>{{ site.author.bio }}</p>
+    </div>
+    
+    <div class="footer-section">
+      <h3>Connect</h3>
+      <div class="social-links">
+        {% if site.author.github %}
+        <a href="https://github.com/{{ site.author.github }}" aria-label="GitHub" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+        {% endif %}
+        {% if site.author.linkedin %}
+        <a href="https://linkedin.com/in/{{ site.author.linkedin }}" aria-label="LinkedIn" target="_blank" rel="noopener">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        {% endif %}
+        {% if site.author.twitter %}
+        <a href="https://twitter.com/{{ site.author.twitter }}" aria-label="Twitter" target="_blank" rel="noopener">
+          <i class="fab fa-twitter"></i>
+        </a>
+        {% endif %}
+        <a href="mailto:{{ site.author.email }}" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+        <a href="/feed.xml" aria-label="RSS Feed">
+          <i class="fas fa-rss"></i>
+        </a>
+      </div>
+    </div>
+    
+    <div class="footer-section">
+      <h3>Resources</h3>
+      <ul class="footer-links">
+        <li><a href="/blog/">All Posts</a></li>
+        <li><a href="/tags/">Browse by Tags</a></li>
+        <li><a href="/feed.xml">RSS Feed</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author.name }}. All rights reserved.</p>
+    <p class="footer-credits">
+      Built with <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> • 
+      Hosted on <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a>
+    </p>
+  </div>
+</footer>
