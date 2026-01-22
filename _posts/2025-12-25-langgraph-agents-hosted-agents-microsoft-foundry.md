@@ -8,6 +8,7 @@ tags:
   - AI Agents
   - LangGraph
   - Microsoft Foundry
+  - Hosted Agents
   - Azure AI
   - Multi-Agent Systems
   - Microsoft Teams
@@ -15,10 +16,6 @@ tags:
 description: "Learn how to take your locally developed LangGraph AI agent and deploy it as an enterprise-ready, production-grade hosted agent with turnkey publishing to Microsoft Teams and Microsoft 365 Copilot using Microsoft Foundry."
 image: "/blog/images/banner_image1.png"
 ---
-
-![LangGraph Agents on Microsoft Foundry](/blog/images/banner_image1.png)
-
-Learn how to take your locally developed AI agent and deploy it as an enterprise-ready, production-grade hosted agent with turnkey publishing to Microsoft Teams and Microsoft 365 Copilot.
 
 ## Introduction: The AI Agent Era and Microsoft Foundry
 
@@ -38,34 +35,14 @@ Rather than forcing developers into a single framework or development approach, 
 | **One-Click Publishing** | Publish agents directly to Microsoft Teams and Microsoft 365 Copilot with no additional code |
 | **High Availability** | Automatic failover and scaling without infrastructure management |
 
+> 📢 **Note:** Microsoft Foundry is currently in Public Preview at the time of this writing.
 
 
 ![Hosted Agent with Entra Identity](https://raw.githubusercontent.com/MSFT-Innovation-Hub-India/LangGraph-Foundry-HostedAgent-TravelAgent/main/images/AgentIdentity.png)
 *Hosted agents automatically receive a secure Microsoft Entra Identity for enterprise-grade authentication*
 
-> 📢 **Note:** Microsoft Foundry is currently in Public Preview at the time of this writing.
-
-## What We're Building: A Multi-Agent Travel Support System
-
-In this article, we'll walk through a practical example: taking a LangGraph-based multi-agent travel support system and deploying it as a Hosted Agent on Microsoft Foundry.
-
-### The Travel Agent Architecture
-
 ![Travel Agent Graph Architecture](https://raw.githubusercontent.com/MSFT-Innovation-Hub-India/LangGraph-Foundry-HostedAgent-TravelAgent/main/images/graph_bot_app.png)
 *The multi-agent graph structure showing the supervisor pattern and specialized sub-agents*
-
-The travel agent implements a sophisticated **supervisor pattern** where a primary assistant intelligently routes customer requests to specialized sub-agents. This sample is based on the popular [LangGraph Customer Support Bot tutorial](https://langchain-ai.github.io/langgraph/tutorials/customer-support/customer-support/), demonstrating complex workflows with conditional routing, state management across conversation turns, and graceful escalation.
-
-| Specialist Agent | Responsibilities |
-|------------------|------------------|
-| ✈️ **Flight Assistant** | Search flights, update tickets, cancel bookings |
-| 🏨 **Hotel Assistant** | Find hotels, make reservations, modify bookings |
-| 🚗 **Car Rental Assistant** | Search rentals, book vehicles, update reservations |
-| 🎯 **Excursions Assistant** | Find activities, book tours, manage trip recommendations |
-
-## From Local Development to Enterprise Deployment
-
-Here's the high-level journey we'll take:
 
 ![From Local to Enterprise Deployment](https://langchain-ai.github.io/langgraph/tutorials/customer-support/img/part-4-diagram.png)
 *LangGraph's graph-based execution model enabling complex multi-agent workflows*
@@ -75,9 +52,36 @@ Here's the high-level journey we'll take:
 3. **Deploy to Foundry** → Host as a containerized, managed endpoint
 4. **Publish to Channels** → One-click publishing to Teams and M365 Copilot
 
+
+## What We're Building: A Multi-Agent Travel Support System
+
+In this article, we'll walk through a practical example: taking a LangGraph-based multi-agent travel support system and deploying it as a Hosted Agent on Microsoft Foundry.
+
+### The Travel Agent Architecture
+
+The travel agent implements a sophisticated **supervisor pattern** where a primary assistant intelligently routes customer requests to specialized sub-agents. This sample is based on the popular [LangGraph Customer Support Bot tutorial](https://langchain-ai.github.io/langgraph/tutorials/customer-support/customer-support/), demonstrating complex workflows with conditional routing, state management across conversation turns, and graceful escalation.
+
+![Multi Agent - Travel Agent](/assets/images/posts/2025-12-25-langgraph-foundry/image1.png)
+
+| Specialist Agent | Responsibilities |
+|------------------|------------------|
+| ✈️ **Flight Assistant** | Search flights, update tickets, cancel bookings |
+| 🏨 **Hotel Assistant** | Find hotels, make reservations, modify bookings |
+| 🚗 **Car Rental Assistant** | Search rentals, book vehicles, update reservations |
+| 🎯 **Excursions Assistant** | Find activities, book tours, manage trip recommendations |
+
+
+## From Local Development to Enterprise Deployment
+
+Here's the high-level journey we'll take:
+
+![Local Dev To Cloud Deployment](/assets/images/posts/2025-12-25-langgraph-foundry/image2.png)
+
 ## The Implementation Journey
 
-The code base from the original LangGraph sample was taken and additional wrappers required to host that in Microsoft Foundry as a Hosted Agent were added.
+The code base from the original LangGraph sample was taken and additional wrappers required to host that in Microsoft Foundry as a Hosted Agent were added. See table below
+
+![Server-Side File Overview](/assets/images/posts/2025-12-25-langgraph-foundry/image3.png)
 
 ### Key Files Overview
 
@@ -180,8 +184,9 @@ def state_to_response(self, state: Any, context: AgentRunContext) -> Response:
 
 The agent was developed and tested locally using VS Code with GitHub Copilot Agent Mode. The local playground allows rapid iteration before deployment.
 
-![Local Playground Testing](https://raw.githubusercontent.com/MSFT-Innovation-Hub-India/LangGraph-Foundry-HostedAgent-TravelAgent/main/images/LocalPlayground.png)
-*Testing the agent locally in VS Code before deployment*
+![local playground 01](https://raw.githubusercontent.com/MSFT-Innovation-Hub-India/LangGraph-Foundry-HostedAgent-TravelAgent/main/images/streaming-responses.png)
+* Figure: Testing the agent locally before deployment*
+
 
 ### Step 2: Testing in Local VS Code Microsoft Foundry Playground
 
@@ -189,6 +194,9 @@ To host a LangGraph agent on Foundry, you need:
 
 - A **container entrypoint** (`container.py`) that sets up the environment and observability
 - A **workflow adapter** (`workflow_core.py`) that wraps your LangGraph with the Agent Framework adapter
+
+![Local Playground Testing](https://raw.githubusercontent.com/MSFT-Innovation-Hub-India/LangGraph-Foundry-HostedAgent-TravelAgent/main/images/LocalPlayground.png)
+*Figure: Testing the agent locally in VS Code before deployment*
 
 ### Step 3: Deploying as a Hosted Agent
 
@@ -208,8 +216,11 @@ Once deployed, test your agent in the Foundry Playground to verify all functiona
 
 With the agent running successfully, publishing to Teams and M365 Copilot is just a few clicks away through the Foundry portal!
 
-![Publish to Teams](https://raw.githubusercontent.com/MSFT-Innovation-Hub-India/LangGraph-Foundry-HostedAgent-TravelAgent/main/images/PublishToTeams.png)
-*One-click publishing to Microsoft Teams and M365 Copilot*
+![Access from Microsoft Teams](/assets/images/posts/2025-12-25-langgraph-foundry/msft-teams.png)
+*Figure: The travel agent accessible in Microsoft Teams*
+
+![Access from Microsoft 365 Copilot Chat](/assets/images/posts/2025-12-25-langgraph-foundry/m365-copilot-agent.png)
+*Figure: The travel agent accessible in Microsoft 365 Copilot Chat*
 
 ## Important Considerations
 
@@ -224,6 +235,12 @@ When publishing to channels like Teams and M365 Copilot (which use non-streaming
 When publishing new versions of an existing Hosted Agent Application, you may encounter routing issues. A workaround is to publish new versions with different application names.
 
 > 📌 For detailed technical solutions to these challenges, please refer to the [GitHub repository](https://github.com/MSFT-Innovation-Hub-India/LangGraph-Foundry-HostedAgent-TravelAgent).
+
+
+### Architecture
+
+Here is the overall architcture of the solution.
+![Architecture](/assets/images/posts/2025-12-25-langgraph-foundry/architecture.png)
 
 ## Sample Conversation Flow
 
