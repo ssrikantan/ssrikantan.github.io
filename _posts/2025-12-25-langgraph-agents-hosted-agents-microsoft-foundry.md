@@ -37,22 +37,6 @@ Rather than forcing developers into a single framework or development approach, 
 
 > 📢 **Note:** Microsoft Foundry is currently in Public Preview at the time of this writing.
 
-
-![Hosted Agent with Entra Identity](https://raw.githubusercontent.com/MSFT-Innovation-Hub-India/LangGraph-Foundry-HostedAgent-TravelAgent/main/images/AgentIdentity.png)
-*Hosted agents automatically receive a secure Microsoft Entra Identity for enterprise-grade authentication*
-
-![Travel Agent Graph Architecture](https://raw.githubusercontent.com/MSFT-Innovation-Hub-India/LangGraph-Foundry-HostedAgent-TravelAgent/main/images/graph_bot_app.png)
-*The multi-agent graph structure showing the supervisor pattern and specialized sub-agents*
-
-![From Local to Enterprise Deployment](https://langchain-ai.github.io/langgraph/tutorials/customer-support/img/part-4-diagram.png)
-*LangGraph's graph-based execution model enabling complex multi-agent workflows*
-
-1. **Local Development** → Build and test your LangGraph agent locally
-2. **Agent Framework Wrapper** → Package with Microsoft Agent Framework adapter
-3. **Deploy to Foundry** → Host as a containerized, managed endpoint
-4. **Publish to Channels** → One-click publishing to Teams and M365 Copilot
-
-
 ## What We're Building: A Multi-Agent Travel Support System
 
 In this article, we'll walk through a practical example: taking a LangGraph-based multi-agent travel support system and deploying it as a Hosted Agent on Microsoft Foundry.
