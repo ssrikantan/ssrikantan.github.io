@@ -5,9 +5,9 @@ description: "Deep dives into Agentic AI, Data Engineering, AI, and Cloud Archit
 url: "https://ssrikantan.github.io"
 baseurl: ""
 author:
-  name: Srikantan Sankaran
+  name: Srikantan
   email: s_srikantan@hotmail.com
-  bio: "Cloud Architect & Technical Writer | Azure, Data Engineering, AI/ML"
+  bio: "Passionate about Generative AI, Agentic AI & Cloud Architecture | Building intelligent systems with Azure, LangGraph & Microsoft Foundry"
   github: ssrikantan
   linkedin: https://www.linkedin.com/in/ssrikantan/
   twitter: SrikantanS
@@ -69,8 +69,8 @@ social:
     - https://github.com/ssrikantan
     - https://linkedin.com/in/srikantan-sankaran
 
-# Google Analytics (replace with your ID)
-google_analytics: G-XXXXXXXXXX
+# Google Analytics
+google_analytics: G-873J0KX5SQ
 
 # Disqus Comments (optional - replace with your shortname)
 # disqus:
