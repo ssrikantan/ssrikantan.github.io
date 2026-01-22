@@ -37,6 +37,10 @@ Rather than forcing developers into a single framework or development approach, 
 
 > 📢 **Note:** Microsoft Foundry is currently in Public Preview at the time of this writing.
 
+### 🎥 Watch the Video Walkthrough
+
+[![Watch the video](https://img.youtube.com/vi/8PezEmkvhiY/maxresdefault.jpg)](https://youtu.be/8PezEmkvhiY)
+
 ## What We're Building: A Multi-Agent Travel Support System
 
 In this article, we'll walk through a practical example: taking a LangGraph-based multi-agent travel support system and deploying it as a Hosted Agent on Microsoft Foundry.
