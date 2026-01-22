@@ -5,7 +5,11 @@ layout: default
   <header class="post-header">
     {% if page.tags.size > 0 %}
     <div class="post-category">
-      <a href="/tags/{{ page.tags.first | slugify }}/">#{{ page.tags.first }}</a>
+      {% for tag in page.tags %}
+        {% if tag == "Azure" or tag == "Azure AI" or tag == "Microsoft Foundry" or tag == "Hosted Agents" %}
+          <a href="/tags/{{ tag | slugify }}/">#{{ tag }}</a>
+        {% endif %}
+      {% endfor %}
     </div>
     {% endif %}
     

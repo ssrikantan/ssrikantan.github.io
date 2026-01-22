@@ -73,8 +73,8 @@ social:
 google_analytics: G-XXXXXXXXXX
 
 # Disqus Comments (optional - replace with your shortname)
-disqus:
-  shortname: ssrikantan-github-io
+# disqus:
+#   shortname: your-disqus-shortname
 
 # Build settings
 exclude:
