@@ -20,7 +20,6 @@ description: "Explore how OpenAI's ChatKit framework revolutionizes order return
 image: "/assets/images/posts/2026-01-24-chatkit-order-returns/banner-image.png"
 ---
 
-![ChatKit Order Returns Banner](/assets/images/posts/2026-01-24-chatkit-order-returns/banner-image.png)
 
 ## Introduction: The Evolution of Customer Service AI
 
