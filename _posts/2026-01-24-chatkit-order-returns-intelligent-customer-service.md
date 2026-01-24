@@ -6,9 +6,9 @@ author: Srikantan Sankaran
 tags:
   - OpenAI
   - ChatKit
-  - Agents SDK
+  - AgentsSDK
   - AI driven UI
-  - Azure OpenAI
+  - AzureOpenAI
   - Customer Service
   - Natural Language Processing
   - AI Applications
@@ -543,7 +543,3 @@ The convergence of ChatKit, OpenAI's Agents SDK, and Azure OpenAI creates unprec
 - **Agents SDK Guide**: [Agents SDK Documentation](https://platform.openai.com/docs/agents)
 - **Azure OpenAI Service**: [Azure OpenAI Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/)
 
-### Community and Support
-- **OpenAI Developer Forum**: Share experiences and get help
-- **ChatKit Examples Repository**: More sample applications and patterns
-- **Azure AI Community**: Enterprise-focused discussions and best practices
