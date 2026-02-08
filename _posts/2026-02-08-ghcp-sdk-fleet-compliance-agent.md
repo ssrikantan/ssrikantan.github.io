@@ -27,6 +27,14 @@ The [Fleet Compliance Agent](https://github.com/MSFT-Innovation-Hub-India/GHCP-C
 
 > **The Key Insight:** Instead of a human typing prompts, **code drives the conversation** — sending structured prompts to the SDK, registering custom tools, and letting the SDK autonomously decide the execution path. This pattern enables enterprise automation scenarios that would be impossible with interactive CLI usage alone.
 
+### 🎥 Video Demo
+
+[![Watch the video](https://img.youtube.com/vi/Oyv-tmG7q1k/maxresdefault.jpg)](https://youtu.be/Oyv-tmG7q1k)
+
+*Click the image above to watch the Fleet Compliance Agent in action*
+
+---
+
 ## Why GitHub Copilot SDK?
 
 The **GitHub Copilot SDK** unlocks a fundamentally different paradigm. By exposing the Copilot CLI through a Python SDK, it transforms from a conversational tool into a **programmable agent brain**.
