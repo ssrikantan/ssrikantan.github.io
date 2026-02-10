@@ -9,7 +9,8 @@ tags:
   - AI Agents
   - MCP
   - RAG
-  - Azure OpenAI
+  - Azure AI Search
+  - FoundryIQ
   - Fleet Management
   - DevOps Automation
   - Python
@@ -90,7 +91,7 @@ The demo implements **automated fleet-wide compliance enforcement** — an AI ag
 | **Autonomous Tool Calling** | SDK decides which tools to invoke based on the task | 13 custom tools registered with the SDK |
 | **Function Calling** | Tools return structured JSON that the SDK reasons over | Each tool returns `ToolResult` with JSON payload |
 | **MCP Server Integration** | External services for approvals and security scans | Change Mgmt (port 4101), Security (port 4102) |
-| **RAG (Retrieval-Augmented Generation)** | Policy evidence grounded in organizational knowledge | Azure OpenAI Vector Store with Responses API |
+| **RAG (Retrieval-Augmented Generation)** | Policy evidence grounded in organizational knowledge | Azure AI Search Knowledge Base (FoundryIQ) with extractive retrieval |
 | **Multi-Step Reasoning** | SDK chains tools: clone → analyze → patch → test → PR | Event-driven workflow with state tracking |
 | **Real-Time Event Streaming** | Live UI updates as agent executes | WebSocket events via `asyncio.run_coroutine_threadsafe` |
 
@@ -172,9 +173,9 @@ The solution follows a layered architecture with the Copilot SDK at its core, su
 An important distinction in this architecture is the **separation of concerns** between the two AI services:
 
 - **GitHub Copilot SDK** = **Agent Brain** (LLM reasoning, tool orchestration, autonomous decision-making)
-- **Azure OpenAI** = **Vector Store Only** (RAG search via Responses API with `file_search` — no LLM reasoning)
+- **Azure AI Search Knowledge Base (FoundryIQ)** = **Knowledge Retrieval Only** (extractive RAG search — returns verbatim text from policy documents, no LLM reasoning in agent code)
 
-The Copilot SDK handles all the reasoning and tool orchestration, while Azure OpenAI serves purely as the knowledge retrieval layer for policy documents.
+The Copilot SDK handles all the reasoning and tool orchestration, while Azure AI Search Knowledge Base (FoundryIQ) serves purely as the knowledge retrieval layer for policy documents. Azure OpenAI is used internally by the knowledge base for reranking, but the agent code does not call Azure OpenAI directly.
 
 ---
 
@@ -323,7 +324,41 @@ These MCP servers demonstrate how agents can leverage external, domain-specific 
 
 ## RAG: Policy-Grounded Evidence
 
-The agent doesn't just apply arbitrary fixes — it **grounds every action in organizational policy documents**. Using Azure OpenAI's native Vector Store with the Responses API, the agent retrieves relevant policy context before making any changes.
+The agent doesn't just apply arbitrary fixes — it **grounds every action in organizational policy documents**. Using Azure AI Search Knowledge Base (FoundryIQ), the agent retrieves relevant policy context before making any changes. The knowledge base uses **extractive retrieval** — returning verbatim text from the indexed policy documents rather than synthesized answers — which reduces hallucination risk in policy citations.
+
+### How FoundryIQ Works
+
+The RAG pipeline follows this flow:
+
+```
+┌──────────────────┐     upload      ┌──────────────────────┐
+│  knowledge/*.md  │ ──────────────► │  Azure Blob Storage  │
+│  (policy docs)   │                 │  (container)         │
+└──────────────────┘                 └──────────┬───────────┘
+                                                │
+                                                │ points to
+                                                ▼
+┌───────────────────────────────────────────────────────────────┐
+│               Azure AI Search (FoundryIQ)                     │
+│  ┌─────────────────────────────────────────────────────┐      │
+│  │  Knowledge Source                                   │      │
+│  │  • Data source: Azure Blob Storage container        │      │
+│  │  • Auto-indexes documents on creation               │      │
+│  │  • Creates a local index in FoundryIQ               │      │
+│  └──────────────────────┬──────────────────────────────┘      │
+│                         │ consumed by                         │
+│                         ▼                                     │
+│  ┌─────────────────────────────────────────────────────┐      │
+│  │  Knowledge Base                                     │      │
+│  │  • Powered by LLM (gpt-4o) for reranking            │      │
+│  │  • Output mode: Extractive data                     │      │
+│  │  • Reasoning effort: low                            │      │
+│  │  • Custom instructions for retrieval                │      │
+│  └─────────────────────────────────────────────────────┘      │
+└───────────────────────────────────────────────────────────────┘
+```
+
+The agent queries the knowledge base using the `KnowledgeBaseRetrievalClient` from the `azure-search-documents` SDK, authenticated via `DefaultAzureCredential`.
 
 ### Knowledge Base Structure
 
@@ -429,7 +464,7 @@ ghcp-cli-sdk-sample1/
 │   │   ├── github_ops.py       # Git/GitHub operations
 │   │   ├── mcp_clients.py      # MCP server clients
 │   │   ├── patcher_fastapi.py  # Code patching logic
-│   │   └── rag.py              # Knowledge base search (Azure OpenAI)
+│   │   └── rag.py              # Knowledge base search (Azure AI Search KB / FoundryIQ)
 │   ├── test_sdk_response.py    # SDK response parsing tests
 │   ├── requirements.txt
 │   └── .env.example
@@ -452,8 +487,11 @@ ghcp-cli-sdk-sample1/
 │   └── contoso-payments-api/
 │
 ├── scripts/
-│   ├── deploy-vector-store.py  # Deploy Azure OpenAI vector store
+│   ├── deploy-vector-store.py  # Legacy: Deploy Azure OpenAI vector store (not used)
 │   └── push-sample-repos.ps1   # Push samples to GitHub
+│
+├── images/
+│   └── solution-architecture.png  # Architecture diagram
 │
 ├── ui/
 │   ├── frontend/               # React app (Vite + Tailwind)
@@ -476,7 +514,7 @@ ghcp-cli-sdk-sample1/
 | **Node.js 18+** | Frontend and Copilot CLI | `node --version` |
 | **Git** | Repository operations | `git --version` |
 | **GitHub CLI** | PR creation, repo management | `gh --version` |
-| **Azure CLI** | Azure authentication for RAG | `az --version` |
+| **Azure CLI** | Azure authentication for RAG (`DefaultAzureCredential`) | `az --version` |
 | **GitHub Copilot License** | Required for Copilot SDK | Check GitHub account |
 | **GitHub Copilot CLI** | SDK dependency | `npm list -g @anthropic-ai/copilot` |
 
@@ -496,16 +534,18 @@ ghcp-cli-sdk-sample1/
    gh auth login
    ```
 
-4. **Configure environment** — copy `agent/.env.example` to `agent/.env` and set your Azure OpenAI endpoint, deployment name, and Copilot CLI path
+4. **Configure environment** — copy `agent/.env.example` to `agent/.env` and set:
+   - `AZURE_AI_SEARCH_ENDPOINT` — Azure AI Search service endpoint URL
+   - `AZURE_AI_KB_NAME` — knowledge base name in FoundryIQ
+   - `COPILOT_CLI_PATH` — path to Copilot CLI executable
 
 5. **Create virtual environments and install dependencies** for the agent and both MCP servers
 
-6. **Deploy the Vector Store:**
-   ```powershell
-   cd agent
-   .venv\Scripts\Activate.ps1
-   python ..\scripts\deploy-vector-store.py
-   ```
+6. **Configure Azure AI Search Knowledge Base (FoundryIQ):**
+   1. Create an Azure Storage Account and upload the policy markdown files from `knowledge/` into a blob container
+   2. Create an Azure AI Search resource in the Azure portal
+   3. Create a Knowledge Source in FoundryIQ — point it to the Azure Blob Storage container (auto-indexes documents)
+   4. Create a Knowledge Base — select the knowledge source, configure with extractive output mode and low reasoning effort
 
 7. **Run the demo** — start the MCP servers, backend, and frontend in four separate terminals
 
@@ -524,7 +564,7 @@ The key takeaways:
 - **GitHub Copilot SDK** enables programmatic access to Copilot's reasoning capabilities — extending the agent's world from the GitHub platform into enterprise systems
 - **Custom tools** give the SDK hands to act — from cloning repos to creating PRs, the agent can interact with real systems
 - **MCP servers** connect the agent to domain-specific enterprise services — change management, security scanning, approval workflows — that live outside GitHub
-- **RAG with Azure OpenAI** grounds every action in organizational policy, producing auditable, evidence-backed Pull Requests
+- **RAG with Azure AI Search Knowledge Base (FoundryIQ)** grounds every action in organizational policy, using extractive retrieval to produce auditable, evidence-backed Pull Requests
 - **Human-in-the-loop** remains essential — the agent proposes, humans approve, maintaining the safety and governance that enterprise environments demand
 
 This is a glimpse into the future of enterprise DevOps: AI agents that understand policy, reason about code, orchestrate across enterprise systems, and automate the tedious toil — while keeping humans firmly in the decision loop.
@@ -535,7 +575,7 @@ This is a glimpse into the future of enterprise DevOps: AI agents that understan
 - **GitHub Copilot SDK (Python):** [github/copilot-sdk](https://github.com/github/copilot-sdk)
 - **GitHub Copilot CLI Documentation:** [Copilot in the CLI](https://docs.github.com/en/copilot/github-copilot-in-the-cli)
 - **MCP Specification:** [Model Context Protocol](https://modelcontextprotocol.io/)
-- **Azure OpenAI Responses API:** [Azure OpenAI Docs](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/responses)
+- **Azure AI Search Knowledge Base (FoundryIQ):** [Azure AI Search KB Docs](https://learn.microsoft.com/en-us/azure/search/knowledge-base-overview)
 
 ---
 
