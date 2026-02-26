@@ -51,20 +51,20 @@ Here's what happens in a single, continuous conversation with GitHub Copilot:
 
 ### Step 1: Finding the Right Experts
 
-I asked Copilot to find Solution Engineers based in India with deep technical skills in **Voice, Generative AI, Speech APIs, and TTS**. I wanted to start narrow — AI GBB (Global Black Belt) teams first — and then broaden the search.
+I asked Copilot to find Solution Engineers based in India with deep technical skills in **Voice, Generative AI, Speech APIs, and TTS**.
 
 WorkIQ searched across Microsoft 365 people profiles, inferred skills, organizational data, emails, and meeting context. It returned a curated list of matches with:
 
 - **Names and titles**
 - **Locations**
-- **Org alignment** (GBB vs. broader MCAPS)
+- **Org alignment**
 - **Evidence of relevant skills** — not just listed skills, but signals from real work: meeting topics, project involvement, customer engagements
 
-The top results included Sr. Solution Engineers actively working on Voice Live deployments, Azure OpenAI integrations, and Speech/TTS implementations — exactly the expertise I needed.
+The top results included Solution Engineers actively working on Voice Live deployments, Azure OpenAI integrations, and Speech/TTS implementations — exactly the expertise I needed.
 
 ### Step 2: Checking Calendar Availability
 
-Once I identified two strong candidates — a Sr. Cloud Solution Architect with TTS/Speech depth and an Azure Specialist working on Voice bots — I asked Copilot to check their availability for the current and following week.
+Once I identified two strong candidates — with TTS/Speech depth and Voice bots — I asked Copilot to check their availability for the current and following week.
 
 WorkIQ pulled calendar data and returned specific open time slots, flagged busy blocks (including a customer workshop), and even suggested the best overlapping windows for a joint meeting. No Outlook tab required.
 
