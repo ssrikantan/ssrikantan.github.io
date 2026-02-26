@@ -39,6 +39,12 @@ WorkIQ doesn't store any of your data. It retrieves information on-demand, respe
 
 ## The Demo: A Real Collaboration Workflow
 
+### 🎥 Video Demo
+
+[![Watch the video](https://img.youtube.com/vi/QjxPByzM8aI/maxresdefault.jpg)](https://youtu.be/QjxPByzM8aI)
+
+*Click the image above to watch the WorkIQ demo in action*
+
 I recorded a walkthrough that demonstrates WorkIQ's power in a real scenario: I'm building a Voice AI application and need to find the right technical experts to collaborate with — all from within VS Code.
 
 Here's what happens in a single, continuous conversation with GitHub Copilot:
