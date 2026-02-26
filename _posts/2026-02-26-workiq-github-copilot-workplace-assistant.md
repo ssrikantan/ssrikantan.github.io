@@ -15,8 +15,6 @@ description: "Finding experts, checking calendars, and setting up collaboration 
 image: "/assets/images/posts/2026-02-26-workiq-github-copilot/header-image.png"
 ---
 
-![From Code to Colleagues: How WorkIQ Turns GitHub Copilot Into a Workplace-Aware Assistant](/assets/images/posts/2026-02-26-workiq-github-copilot/header-image.png)
-
 ## Two Worlds, One Conversation
 
 For years, **Modern Work** and **Developer Tools** have lived at opposite ends of the technology spectrum. On one side: Outlook, Teams, calendars, org charts — the fabric of how organizations communicate and collaborate. On the other: IDEs, terminals, pull requests, code reviews — the forge where software gets built.
